@@ -9,7 +9,7 @@ export default defineConfig({
   name: 'default',
   title: 'nie-z-tej-bajki',
 
-  projectId: 'cloyxz6v',
+  projectId: '5q6708nl',
   dataset: 'production',
 
   plugins: [structureTool({structure: deskStructrure}), visionTool(), media()],
