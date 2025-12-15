@@ -1,0 +1,178 @@
+---
+import ButtonElevated from "../../components/shared/ButtonElevated.astro";
+import ContentWrapper from "../../components/shared/ContentWrapper.astro";
+import SanityImage from "../../components/shared/SanityImage.astro";
+import ImagePreview from "../../components/gallery/ImagePreview.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { fetchGalleries } from "../../api/galleryPage/fetchGalleries/query";
+import { fetchGalleryBySlug } from "../../api/galleryPage/fetchGalleryBySlug/query";
+
+const { slug } = Astro.params;
+
+export async function getStaticPaths() {
+  const galleries = await fetchGalleries();
+
+  return galleries.map((gallery) => ({
+    params: { slug: gallery.slug },
+  }));
+}
+
+if (!slug) {
+  return Astro.redirect("/galeria");
+}
+
+const gallery = await fetchGalleryBySlug(slug);
+
+if (!gallery) {
+  return Astro.redirect("/galeria");
+}
+---
+
+<BaseLayout
+  pageTitle={gallery.name}'
+  seo={gallery.seo}
+>
+  <ImagePreview coverImage={gallery.coverImage} images={gallery.images || []} />
+
+  <section>
+    <ContentWrapper columnFlex gapResponsive>
+      <h2>{gallery.name}</h2>
+      <p>Zapraszamy do naszej galerii, gdzie prezentujemy wybrane realizacje oraz wyjątkowe momenty uchwycone w obiektywie. To przestrzeń, w której możesz zobaczyć efekty naszej pracy i zainspirować się możliwościami, jakie oferujemy.</p>
+    </ContentWrapper>
+      <div class="galery-grid">
+        <!-- wyrozniony jeden duzy obrazek -->
+        <div class="galery-featured" onclick="openGalleryPreview(0)" role="button" tabindex="0" style="cursor: pointer;">
+          {gallery.coverImage && (
+            <SanityImage
+              image={gallery.coverImage}
+              alt={gallery.coverImage.alt || gallery.name}
+              widths={[640, 960, 1280, 1920]}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+              quality={90}
+              loading="eager"
+              class="gallery-cover-image"
+            />
+          )}
+        </div>
+        <!-- wszystkie miniatury galerii -->
+        {gallery.images && gallery.images.map((image, index) => (
+          <div
+            class="galery-item"
+            onclick={`openGalleryPreview(${index + 1})`}
+            role="button"
+            tabindex="0"
+            style="cursor: pointer;"
+          >
+            <SanityImage
+              image={image}
+              alt={image.alt || gallery.name}
+              widths={[150, 300, 450]}
+              sizes="(max-width: 485px) 75px, (max-width: 768px) 100px, (max-width: 1200px) 125px, 150px"
+              quality={85}
+              loading="lazy"
+              class="gallery-item-image"
+            />
+          </div>
+        ))}
+      </div>
+
+    <div class="button-wrapper">
+      <ButtonElevated href="/galeria" text="Wróc do galerii" iconReversed/>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .button-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  .galery-grid {
+    display: grid;
+    padding: 3rem 0;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-auto-rows: 150px;
+    gap: 1rem;
+  }
+  .galery-featured {
+    /* wysokosc 3 elementow i szerokosc 4 elementow */
+    grid-column: span 4;
+    grid-row: span 3;
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .galery-item {
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Wrapper z klasą od SanityImage */
+  .galery-featured :global(.gallery-cover-image),
+  .galery-item :global(.gallery-item-image) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+
+  /* Picture element wewnątrz */
+  .galery-featured :global(.gallery-cover-image > picture),
+  .galery-item :global(.gallery-item-image > picture) {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+  }
+
+  /* Img element - musi nadpisać inline width/height */
+  .galery-featured :global(.gallery-cover-image img),
+  .galery-item :global(.gallery-item-image img) {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+
+  /* MEDIA QUERIES */
+  /* 1200px and below */
+  @media only screen and (max-width: 1200px) {
+    .galery-grid {
+      grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+      grid-auto-rows: 125px;
+      padding: 2.5rem 0;
+    }
+    .galery-featured {
+      grid-column: span 3;
+      grid-row: span 3;
+    }
+  }
+
+  /* 768px and below */
+  @media only screen and (max-width: 768px) {
+    .galery-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      grid-auto-rows: 100px;
+      padding: 2rem 0;
+    }
+    .galery-featured {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+
+  /* 485px and below */
+  @media only screen and (max-width: 485px) {
+    .galery-grid {
+      grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+      grid-auto-rows: 75px;
+      padding: 1rem 0;
+    }
+    .galery-featured {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+</style>

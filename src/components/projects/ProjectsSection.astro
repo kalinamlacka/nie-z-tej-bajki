@@ -1,0 +1,1295 @@
+---
+import { fetchProjects } from "../../api/projectsPage/fetchProjects/query.ts";
+import { fetchPartnersReferenceData } from "../../api/projectsPage/fetchPartners/query.ts";
+import ButtonElevated from "../shared/ButtonElevated.astro";
+import { Image } from "astro:assets";
+import SanityImage from "../shared/SanityImage.astro";
+import { formatDate } from "../../lib/convertDate";
+
+const projects = await fetchProjects();
+const partnersReferenceData = await fetchPartnersReferenceData();
+---
+
+<section>
+    <!-- visual layout with styles that will override from ProjectsComponents css styles -->
+    <div class="projects-content-wrapper">
+
+      <div class="projects-content">
+
+        <div class="filters-wrapper">
+          <div class="filter-item">
+            <label for="search">Szukaj</label>
+            <input id="search" name="search" placeholder="Szukaj po tytule" type="text">
+          </div>
+
+          <div class="filter-date-item">
+            <div class="filter-item">
+              <label for="date-from">Od</label>
+              <input id="date-from" name="date-from" placeholder="dd.mm.rrrr" type="date">
+            </div>
+
+            <div class="filter-item">
+              <label for="date-to">Do</label>
+              <input id="date-to" name="date-to" placeholder="dd.mm.rrrr" type="date">
+            </div>
+          </div>
+
+          <div class="filter-item">
+            <label id="partners-label">Partnerzy</label>
+            <button
+              class="dropdown dropdown-partners dropdown-multiselect"
+              aria-labelledby="partners-label"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="partners-dropdown-list"
+              type="button"
+            >
+              <span>Wybór partnerów</span>
+              <Image
+                src={"/icons/dropdown-icon.svg"}
+                width={28}
+                height={28}
+                alt=""
+              />
+            </button>
+            <ul class="dropdown-list hidden" id="partners-dropdown-list" role="group" aria-labelledby="partners-label">
+              {partnersReferenceData.map((partner) => (
+                <li>
+                  <label class="checkbox-option">
+                    <input type="checkbox" name="partner" value={partner._id} />
+                    <span>{partner.name}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="filter-item">
+            <label id="sort-label">Sortuj</label>
+            <button
+              class="dropdown dropdown-partners"
+              aria-labelledby="sort-label"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="sort-dropdown-list"
+              type="button"
+            >
+              <span>Sortuj od</span>
+              <Image
+                src={"/icons/dropdown-icon.svg"}
+                width={28}
+                height={28}
+                alt=""
+              />
+            </button>
+            <ul class="dropdown-list hidden" id="sort-dropdown-list" role="listbox" aria-labelledby="sort-label">
+              <li role="option" tabindex="0" data-sort="newest">Od najnowszych</li>
+              <li role="option" tabindex="0" data-sort="oldest">Od najstarszych</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="filters-wrapper-mobile">
+          <!-- Search z ikoną -->
+          <div class="search-wrapper-mobile">
+            <Image
+              src={"/icons/search-icon.svg"}
+              width={24}
+              height={24}
+              alt=""
+              class="search-icon"
+            />
+            <input type="text" id="search-mobile" name="search-mobile" placeholder="Szukaj po tytule" />
+          </div>
+
+          <!-- Wiersz z dropdownami Filtruj i Sortuj -->
+          <div class="filters-row-mobile">
+            <!-- Dropdown "Filtruj" -->
+            <div class="filter-item-mobile filter-filtruj-wrapper">
+              <button
+                class="dropdown dropdown-mobile dropdown-filtruj"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="filtruj-content"
+                type="button"
+              >
+                <span>Filtruj</span>
+                <Image
+                  src={"/icons/dropdown-icon.svg"}
+                  width={28}
+                  height={28}
+                  alt=""
+                />
+              </button>
+              <div class="dropdown-content-mobile hidden" id="filtruj-content">
+                <!-- Data Od -->
+                <div class="filter-date-mobile">
+                  <label for="date-from-mobile">Od</label>
+                  <input type="date" id="date-from-mobile" name="date-from-mobile" placeholder="dd.mm.rrrr" />
+                </div>
+                <!-- Data Do -->
+                <div class="filter-date-mobile">
+                  <label for="date-to-mobile">Do</label>
+                  <input type="date" id="date-to-mobile" name="date-to-mobile" placeholder="dd.mm.rrrr" />
+                </div>
+                <!-- Partnerzy nested dropdown -->
+                <div class="filter-partners-mobile">
+                  <label id="partners-mobile-label">Partnerzy</label>
+                  <button
+                    class="dropdown dropdown-mobile dropdown-partners-nested"
+                    aria-labelledby="partners-mobile-label"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="partners-mobile-list"
+                    type="button"
+                  >
+                    <span>Wybór partnerów</span>
+                    <Image
+                      src={"/icons/dropdown-icon.svg"}
+                      width={28}
+                      height={28}
+                      alt=""
+                    />
+                  </button>
+                  <ul class="dropdown-list hidden" id="partners-mobile-list" role="group" aria-labelledby="partners-mobile-label">
+                    {partnersReferenceData.map((partner) => (
+                      <li>
+                        <label class="checkbox-option">
+                          <input type="checkbox" name="partner-mobile" value={partner._id} />
+                          <span>{partner.name}</span>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dropdown "Sortuj" -->
+            <div class="filter-item-mobile filter-sortuj-wrapper">
+              <button
+                class="dropdown dropdown-mobile dropdown-sortuj"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-controls="sortuj-mobile-list"
+                type="button"
+              >
+                <span>Sortuj</span>
+                <Image
+                  src={"/icons/dropdown-icon.svg"}
+                  width={28}
+                  height={28}
+                  alt=""
+                />
+              </button>
+              <ul class="dropdown-list hidden" id="sortuj-mobile-list" role="listbox">
+                <li role="option" tabindex="0" data-sort="newest">Od najnowszych</li>
+                <li role="option" tabindex="0" data-sort="oldest">Od najstarszych</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="projects-wrapper" id="ScrollTo">
+          {projects.map((project) => (
+            <div
+              class="projects-item"
+              data-project-id={project.slug}
+              data-title={project.title?.toLowerCase() || ""}
+              data-date={project._createdAt}
+              data-partner={project.partner?._id || ""}
+            >
+              <div class="project-heading">
+                <h3>{project.title}</h3>
+                {project.partner?.partnerImage && (
+                  <div class="image-wrapper">
+                    <SanityImage
+                      image={project.partner.partnerImage}
+                      alt={project.partner.partnerImage.alt || project.title || "Logo partnera"}
+                      widths={[200, 300, 400]}
+                      sizes="200px"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <p>{project.shortDescription}</p>
+
+              <div class="project-bottom">
+                <ButtonElevated href={`/projekty/${project.slug}`} text="Zobacz więcej" />
+
+                <div class="date-wrapper">
+                  <Image
+                    src={"/icons/calendar-picker-icon.svg"}
+                    width={28}
+                    height={28}
+                    alt="Kalendarz"
+                  />
+                  <p>{formatDate(project._createdAt)}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="empty-state hidden" id="empty-state">
+          <p>Nie znaleziono projektów spełniających podane kryteria.</p>
+        </div>
+
+      </div>
+
+      <div class="pagination-wrapper" id="pagination">
+        <div class="pagination-item previous-arrow" data-page="prev">
+          <Image
+            src={"/icons/arrow-icon.svg"}
+            width={28}
+            height={28}
+            alt="Strzałka powrotu"
+           />
+        </div>
+
+        <div class="pagination-numbers">
+          <!-- Pagination numbers will be generated by JavaScript -->
+        </div>
+
+        <div class="pagination-item next-arrow" data-page="next">
+          <Image
+            src={"/icons/arrow-icon.svg"}
+            width={28}
+            height={28}
+            alt="Strzałka dalej"
+           />
+        </div>
+      </div>
+
+    </div>
+
+</section>
+
+<style>
+  .projects-content-wrapper{
+    display: flex;
+    flex-direction: column;
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+    gap: 3rem;
+  }
+
+  .projects-content {
+    display: flex;
+    gap: 3rem;
+  }
+
+
+  .filters-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    height: min-content;
+    background-color: #ffffff;
+    border-radius: 1rem;
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    position: relative;
+  }
+
+  .filter-item label {
+    font-family: "Barlow-Regular";
+    font-size: 1.5rem;
+    color: var(--text-color-title);
+  }
+
+  .filter-item input, .filter-item .dropdown {
+    font-family: "Barlow-Regular";
+    font-size: 1.25rem;
+    color: var(--text-color-title);
+    outline: none;
+    border: none;
+    background-color: var(--background-color);
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .filter-item input::placeholder, .filter-item .dropdown span {
+    color: var(--separator-color);
+  }
+
+  .filter-item .dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .filter-date-item {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .filter-date-item > div {
+    flex: 1;
+  }
+
+  .filter-date-item .filter-item input {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .filter-date-item .filter-item input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url('/icons/calendar-picker-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    width: 1.25rem;
+    height: 1.25rem;
+    position: relative;
+  }
+
+  .dropdown-list {
+    position: absolute;
+    overflow: hidden;
+    z-index: 11;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: #ffffff;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    -webkit-box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+  }
+
+  .dropdown-list li {
+    font-family: "Barlow-Regular";
+    font-size: 1.25rem;
+    color: var(--text-color);
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* Style dla zwykłych opcji (bez checkboxów) */
+  .dropdown-list li:not(:has(.checkbox-option)) {
+    padding: 1rem;
+  }
+
+  .dropdown-list li:not(:has(.checkbox-option)):hover,
+  .dropdown-list li:not(:has(.checkbox-option)):focus {
+    background-color: var(--background-color);
+  }
+
+  .dropdown-list li:last-child {
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
+
+  /* Style dla checkboxów w multiselect */
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.25rem !important;
+  }
+
+  .checkbox-option:hover {
+    background-color: var(--background-color);
+  }
+
+  .checkbox-option input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--separator-color);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    position: relative;
+    background-color: #ffffff;
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .checkbox-option input[type="checkbox"]:hover {
+    border-color: var(--primary-color);
+  }
+
+  .checkbox-option input[type="checkbox"]:checked {
+    background-color: #ffffff;
+    border-color: var(--primary-color);
+  }
+
+  .checkbox-option input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.05rem;
+    width: 0.25rem;
+    height: 0.5rem;
+    border: solid var(--primary-color);
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+  }
+
+  .checkbox-option span {
+    color: var(--text-color);
+    user-select: none;
+  }
+
+  .dropdown-expanded {
+    background-color: #ffffff !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    -webkit-box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+  }
+
+  .dropdown-expanded span {
+    color: var(--text-color) !important;
+  }
+
+  .dropdown-expanded img {
+    transform: rotate(180deg);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+
+  .filters-wrapper-mobile {
+    display: none;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Search wrapper z ikoną */
+  .search-wrapper-mobile {
+    position: relative;
+    width: 100%;
+  }
+
+  .search-wrapper-mobile .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .search-wrapper-mobile input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3.5rem;
+    font-family: "Barlow-Regular";
+    font-size: 1.25rem;
+    color: var(--text-color-title);
+    background-color: #ffffff;
+    border: none;
+    border-radius: 1rem;
+    outline: none;
+  }
+
+  .search-wrapper-mobile input::placeholder {
+    color: var(--separator-color);
+  }
+
+  /* Wiersz z dropdownami Filtruj i Sortuj */
+  .filters-row-mobile {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .filter-item-mobile {
+    flex: 1;
+    position: relative;
+  }
+
+  /* Dropdown button mobile */
+  .dropdown-mobile {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "Barlow-Regular";
+    font-size: 0.875rem;
+    color: var(--text-color-title);
+    background-color: #ffffff;
+    border: none;
+    border-radius: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .dropdown-mobile span {
+    color: var(--separator-color);
+    font-size: 0.875rem;
+  }
+
+  .dropdown-mobile.dropdown-expanded span {
+    color: var(--text-color) !important;
+  }
+
+  .dropdown-mobile.dropdown-expanded img {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-mobile.dropdown-expanded {
+    background-color: #ffffff;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    -webkit-box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Dropdown content dla "Filtruj" */
+  .dropdown-content-mobile {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background-color: #ffffff;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    -webkit-box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 5px 8px -1px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Date inputs w mobile */
+  .filter-date-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .filter-date-mobile label {
+    font-family: "Barlow-Regular";
+    font-size: 1rem;
+    color: var(--text-color-title);
+  }
+
+  .filter-date-mobile input {
+    width: 100%;
+    padding: 1rem;
+    font-family: "Barlow-Regular";
+    font-size: 0.875rem;
+    color: var(--text-color-title);
+    background-color: var(--background-color);
+    border: none;
+    border-radius: 1rem;
+    outline: none;
+  }
+
+  .filter-date-mobile input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url('/icons/calendar-picker-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    width: 1.25rem;
+    height: 1.25rem;
+    position: relative;
+  }
+
+  /* Partnerzy nested dropdown w mobile */
+  .filter-partners-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+  }
+
+  .filter-partners-mobile label {
+    font-family: "Barlow-Regular";
+    font-size: 1rem;
+    color: var(--text-color-title);
+  }
+
+  /* Gdy Filtruj jest otwarty - zajmuj całą szerokość i ukryj Sortuj */
+  .filter-filtruj-wrapper.expanded {
+    flex: 1 1 100%;
+    z-index: 20;
+  }
+
+  .filters-row-mobile.filtruj-active .filter-sortuj-wrapper {
+    display: none !important;
+  }
+
+  .projects-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+  }
+
+  .projects-item {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 1rem;
+  }
+
+  .projects-item > p {
+    padding-bottom: 1rem;
+  }
+
+  .project-heading, .project-bottom {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .project-heading h3 {
+    width: 100%;
+  }
+
+  .image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: min-content;
+  }
+
+  .image-wrapper :global(img) {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .project-bottom {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .date-wrapper{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  .date-wrapper p {
+    font-size: 1rem;
+  }
+
+  .empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 2rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    width: 100%;
+    min-height: 200px;
+  }
+
+  .empty-state p {
+    font-family: "Barlow-Regular";
+    font-size: 1.25rem;
+    color: var(--text-color);
+    text-align: center;
+  }
+
+  .pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .pagination-numbers {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .next-arrow img {
+    transform: rotate(180deg);
+  }
+
+
+/* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+  .projects-content, .projects-wrapper {
+    gap: 2rem;
+  }
+  .projects-item {
+    padding: 1.25rem;
+  }
+  .filter-date-item {
+    flex-direction: column;
+  }
+  .pagination-item span {
+    font-size: 1.25rem;
+  }
+  .date-wrapper p {
+    font-size: .875rem;
+  }
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+  .projects-content-wrapper, .projects-wrapper, .projects-content {
+    gap: 2rem;
+  }
+  .projects-item {
+    padding: 1rem;
+  }
+  .projects-content {
+    flex-direction: column;
+  }
+  .filter-date-item {
+    flex-direction: row;
+  }
+  .pagination-item span {
+    font-size: 1.25rem;
+  }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+  .filters-wrapper {
+    display: none;
+  }
+  .filters-wrapper-mobile {
+    display: flex;
+  }
+  .projects-content-wrapper, .projects-wrapper, .projects-content {
+    gap: 1rem;
+  }
+  .dropdown-list li {
+    font-size: 0.875rem;
+  }
+
+  .checkbox-option {
+    font-size: 0.875rem !important;
+  }
+
+  .search-wrapper-mobile input {
+    font-size: 0.875rem;
+  }
+  .pagination-wrapper {
+    gap: .75rem;
+  }
+  .pagination-item {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .pagination-item span {
+    font-size: 1rem;
+  }
+  .pagination-item img {
+    width: 24px;
+    height: 24px;
+  }
+  .projects-item {
+    padding: 0;
+    gap: 1rem;
+  }
+  .projects-item p {
+    padding: 0 1rem .5rem 1rem;
+  }
+  .project-heading {
+    flex-direction: column-reverse;
+  }
+  .image-wrapper {
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  .project-heading h3 {
+    padding: 0 1rem;
+  }
+  .project-bottom {
+    justify-content: space-between;
+    gap: 0;
+    padding: 0 1rem 1rem 1rem;
+  }
+  .date-wrapper img {
+    width: 24px;
+    height: 24px;
+  }
+  .date-wrapper p {
+    font-size: .75rem;
+  }
+}
+</style>
+
+<!-- SCRIPT FOR TOGGLING DROPDOWNS AND FILTERING -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropdowns = document.querySelectorAll('.dropdown-partners');
+
+    dropdowns.forEach(dropdown => {
+      dropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        // Zamknij inne dropdowny
+        dropdowns.forEach(other => {
+          if (other !== dropdown) {
+            other.classList.remove('dropdown-expanded');
+            other.setAttribute('aria-expanded', 'false');
+            const otherListId = other.getAttribute('aria-controls');
+            if (otherListId) {
+              const otherList = document.getElementById(otherListId);
+              if (otherList) otherList.classList.add('hidden');
+            }
+          }
+        });
+
+        // Przełącz aktualny dropdown
+        const isExpanded = dropdown.classList.toggle('dropdown-expanded');
+        dropdown.setAttribute('aria-expanded', String(isExpanded));
+
+        const dropdownListId = dropdown.getAttribute('aria-controls');
+        if (dropdownListId) {
+          const dropdownList = document.getElementById(dropdownListId);
+          if (dropdownList) dropdownList.classList.toggle('hidden');
+        }
+      });
+
+      // Dla multiselect - zapobiegnij zamykaniu przy kliknięciu wewnątrz
+      if (dropdown.classList.contains('dropdown-multiselect')) {
+        const dropdownListId = dropdown.getAttribute('aria-controls');
+        if (dropdownListId) {
+          const dropdownList = document.getElementById(dropdownListId);
+          if (dropdownList) {
+            dropdownList.addEventListener('click', (e) => {
+              e.stopPropagation();
+            });
+          }
+        }
+      }
+    });
+
+    // Zamknij przy kliknięciu poza dropdown
+    document.addEventListener('click', () => {
+      dropdowns.forEach(dropdown => {
+        dropdown.classList.remove('dropdown-expanded');
+        dropdown.setAttribute('aria-expanded', 'false');
+        const dropdownListId = dropdown.getAttribute('aria-controls');
+        if (dropdownListId) {
+          const dropdownList = document.getElementById(dropdownListId);
+          if (dropdownList) dropdownList.classList.add('hidden');
+        }
+      });
+    });
+
+    // Obsługa klawiatury (Escape zamyka dropdown)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        dropdowns.forEach(dropdown => {
+          dropdown.classList.remove('dropdown-expanded');
+          dropdown.setAttribute('aria-expanded', 'false');
+          const dropdownListId = dropdown.getAttribute('aria-controls');
+          if (dropdownListId) {
+            const dropdownList = document.getElementById(dropdownListId);
+            if (dropdownList) dropdownList.classList.add('hidden');
+          }
+        });
+      }
+    });
+
+    // === MOBILE DROPDOWNS ===
+    const dropdownFiltruj = document.querySelector('.dropdown-filtruj');
+    const dropdownSortuj = document.querySelector('.dropdown-sortuj');
+    const dropdownPartnersNested = document.querySelector('.dropdown-partners-nested');
+    const filtersRowMobile = document.querySelector('.filters-row-mobile');
+    const filtrujaWrapper = document.querySelector('.filter-filtruj-wrapper');
+
+    // Dropdown "Filtruj" - otwiera/zamyka content i ukrywa "Sortuj"
+    if (dropdownFiltruj) {
+      dropdownFiltruj.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        const isExpanded = dropdownFiltruj.classList.toggle('dropdown-expanded');
+        dropdownFiltruj.setAttribute('aria-expanded', String(isExpanded));
+
+        const content = document.getElementById('filtruj-content');
+        if (content) {
+          content.classList.toggle('hidden');
+        }
+
+        // Toggle klasy dla ukrycia "Sortuj"
+        if (filtrujaWrapper) {
+          filtrujaWrapper.classList.toggle('expanded');
+        }
+        if (filtersRowMobile) {
+          filtersRowMobile.classList.toggle('filtruj-active');
+        }
+      });
+
+      // Zapobiegnij zamykaniu przy kliknięciu wewnątrz content
+      const filtrujContent = document.getElementById('filtruj-content');
+      if (filtrujContent) {
+        filtrujContent.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+    }
+
+    // Dropdown "Sortuj" mobile - zwykłe zachowanie
+    if (dropdownSortuj) {
+      dropdownSortuj.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        const isExpanded = dropdownSortuj.classList.toggle('dropdown-expanded');
+        dropdownSortuj.setAttribute('aria-expanded', String(isExpanded));
+
+        const list = document.getElementById('sortuj-mobile-list');
+        if (list) {
+          list.classList.toggle('hidden');
+        }
+      });
+    }
+
+    // Nested dropdown "Partnerzy" w mobile - multiselect
+    if (dropdownPartnersNested) {
+      dropdownPartnersNested.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        const isExpanded = dropdownPartnersNested.classList.toggle('dropdown-expanded');
+        dropdownPartnersNested.setAttribute('aria-expanded', String(isExpanded));
+
+        const list = document.getElementById('partners-mobile-list');
+        if (list) {
+          list.classList.toggle('hidden');
+        }
+      });
+
+      // Zapobiegnij zamykaniu przy kliknięciu w checkboxy
+      const partnersList = document.getElementById('partners-mobile-list');
+      if (partnersList) {
+        partnersList.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+    }
+
+    // Zamknij dropdowny mobile przy kliknięciu poza
+    document.addEventListener('click', () => {
+      // Zamknij Filtruj
+      if (dropdownFiltruj && dropdownFiltruj.classList.contains('dropdown-expanded')) {
+        dropdownFiltruj.classList.remove('dropdown-expanded');
+        dropdownFiltruj.setAttribute('aria-expanded', 'false');
+        const content = document.getElementById('filtruj-content');
+        if (content) content.classList.add('hidden');
+        if (filtrujaWrapper) filtrujaWrapper.classList.remove('expanded');
+        if (filtersRowMobile) filtersRowMobile.classList.remove('filtruj-active');
+      }
+
+      // Zamknij Sortuj
+      if (dropdownSortuj && dropdownSortuj.classList.contains('dropdown-expanded')) {
+        dropdownSortuj.classList.remove('dropdown-expanded');
+        dropdownSortuj.setAttribute('aria-expanded', 'false');
+        const list = document.getElementById('sortuj-mobile-list');
+        if (list) list.classList.add('hidden');
+      }
+
+      // Zamknij nested Partnerzy
+      if (dropdownPartnersNested && dropdownPartnersNested.classList.contains('dropdown-expanded')) {
+        dropdownPartnersNested.classList.remove('dropdown-expanded');
+        dropdownPartnersNested.setAttribute('aria-expanded', 'false');
+        const list = document.getElementById('partners-mobile-list');
+        if (list) list.classList.add('hidden');
+      }
+    });
+
+    // === FILTERING AND PAGINATION LOGIC ===
+    let currentPage = 1;
+    const projectsPerPage = 3;
+    let allProjects = Array.from(document.querySelectorAll('.projects-item'));
+    let filteredProjects = [...allProjects];
+
+    // Helper function for scroll with offset
+    function scrollToProjects() {
+      const scrollTarget = document.getElementById('ScrollTo');
+      if (scrollTarget) {
+        const targetPosition = scrollTarget.getBoundingClientRect().top + window.pageYOffset;
+        const windowWidth = window.innerWidth;
+
+        // Determine offset based on screen width (nav height + margin)
+        let offset = 149 + 48; // Desktop: 149px nav + 48px margin = 197px
+        if (windowWidth <= 485) {
+          offset = 16 + 48; // Mobile: 16px nav + 48px margin = 64px
+        } else if (windowWidth <= 1200) {
+          offset = 89 + 32; // Tablet: 89px nav + 32px margin = 121px
+        }
+
+        window.scrollTo({
+          top: targetPosition - offset,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // Filter function
+    function filterProjects() {
+      const searchTerm = (document.getElementById('search') as HTMLInputElement)?.value.toLowerCase() ||
+                        (document.getElementById('search-mobile') as HTMLInputElement)?.value.toLowerCase() || '';
+      const dateFrom = (document.getElementById('date-from') as HTMLInputElement)?.value ||
+                      (document.getElementById('date-from-mobile') as HTMLInputElement)?.value || '';
+      const dateTo = (document.getElementById('date-to') as HTMLInputElement)?.value ||
+                    (document.getElementById('date-to-mobile') as HTMLInputElement)?.value || '';
+
+      const selectedPartners: string[] = [];
+      document.querySelectorAll('input[name="partner"]:checked, input[name="partner-mobile"]:checked').forEach((checkbox) => {
+        selectedPartners.push((checkbox as HTMLInputElement).value);
+      });
+
+      filteredProjects = allProjects.filter(project => {
+        const title = project.getAttribute('data-title') || '';
+        const date = project.getAttribute('data-date') || '';
+        const partner = project.getAttribute('data-partner') || '';
+
+        // Search filter
+        const matchesSearch = !searchTerm || title.includes(searchTerm);
+
+        // Date filter
+        let matchesDate = true;
+        if (dateFrom || dateTo) {
+          const projectDate = new Date(date);
+          if (dateFrom) {
+            matchesDate = matchesDate && projectDate >= new Date(dateFrom);
+          }
+          if (dateTo) {
+            const toDate = new Date(dateTo);
+            toDate.setHours(23, 59, 59, 999);
+            matchesDate = matchesDate && projectDate <= toDate;
+          }
+        }
+
+        // Partner filter
+        const matchesPartner = selectedPartners.length === 0 || selectedPartners.includes(partner);
+
+        return matchesSearch && matchesDate && matchesPartner;
+      });
+
+      currentPage = 1;
+      displayProjects();
+    }
+
+    // Sort function
+    function sortProjects(order: 'newest' | 'oldest') {
+      const sortFn = (a: Element, b: Element) => {
+        const dateA = new Date(a.getAttribute('data-date') || '');
+        const dateB = new Date(b.getAttribute('data-date') || '');
+        return order === 'newest' ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime();
+      };
+
+      // Sort both arrays to maintain sort order
+      allProjects.sort(sortFn);
+      filteredProjects.sort(sortFn);
+
+      currentPage = 1;
+      displayProjects();
+    }
+
+    // Display projects for current page
+    function displayProjects() {
+      const startIndex = (currentPage - 1) * projectsPerPage;
+      const endIndex = startIndex + projectsPerPage;
+      const emptyState = document.getElementById('empty-state');
+      const projectsList = document.getElementById('ScrollTo');
+
+      allProjects.forEach(project => {
+        (project as HTMLElement).style.display = 'none';
+      });
+
+      // Show empty state if no filtered projects
+      if (filteredProjects.length === 0) {
+        if (emptyState) emptyState.classList.remove('hidden');
+        if (projectsList) projectsList.classList.add('hidden');
+      } else {
+        if (emptyState) emptyState.classList.add('hidden');
+        if (projectsList) projectsList.classList.remove('hidden');
+
+        filteredProjects.slice(startIndex, endIndex).forEach(project => {
+          (project as HTMLElement).style.display = 'flex';
+        });
+      }
+
+      renderPagination();
+    }
+
+    // Render pagination
+    function renderPagination() {
+      const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+      const paginationNumbers = document.querySelector('.pagination-numbers');
+
+      if (!paginationNumbers) return;
+
+      paginationNumbers.innerHTML = '';
+
+      if (totalPages <= 1) {
+        document.getElementById('pagination')!.style.display = 'none';
+        return;
+      }
+
+      document.getElementById('pagination')!.style.display = 'flex';
+
+      // Helper function to create page item
+      function createPageItem(pageNum: number, isCurrentPage: boolean) {
+        const pageItem = document.createElement('div');
+        pageItem.className = `pagination-item ${isCurrentPage ? 'selected' : ''}`;
+        pageItem.innerHTML = `<span>${pageNum}</span>`;
+        pageItem.addEventListener('click', () => {
+          currentPage = pageNum;
+          displayProjects();
+          scrollToProjects();
+        });
+        return pageItem;
+      }
+
+      // Helper function to create separator
+      function createSeparator() {
+        const separator = document.createElement('div');
+        separator.className = 'pagination-item separator';
+        separator.innerHTML = '<span>...</span>';
+        return separator;
+      }
+
+      // Generate page numbers with smart logic
+      if (totalPages <= 5) {
+        // Show all pages if total is 5 or less
+        for (let i = 1; i <= totalPages; i++) {
+          paginationNumbers.appendChild(createPageItem(i, i === currentPage));
+        }
+      } else {
+        // Always show first page
+        paginationNumbers.appendChild(createPageItem(1, currentPage === 1));
+
+        if (currentPage <= 3) {
+          // Near the beginning: 1 2 3 4 ... last
+          for (let i = 2; i <= 4; i++) {
+            paginationNumbers.appendChild(createPageItem(i, i === currentPage));
+          }
+          paginationNumbers.appendChild(createSeparator());
+          paginationNumbers.appendChild(createPageItem(totalPages, currentPage === totalPages));
+        } else if (currentPage >= totalPages - 2) {
+          // Near the end: 1 ... last-3 last-2 last-1 last
+          paginationNumbers.appendChild(createSeparator());
+          for (let i = totalPages - 3; i <= totalPages; i++) {
+            paginationNumbers.appendChild(createPageItem(i, i === currentPage));
+          }
+        } else {
+          // In the middle: 1 ... current-1 current current+1 ... last
+          paginationNumbers.appendChild(createSeparator());
+          for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+            paginationNumbers.appendChild(createPageItem(i, i === currentPage));
+          }
+          paginationNumbers.appendChild(createSeparator());
+          paginationNumbers.appendChild(createPageItem(totalPages, currentPage === totalPages));
+        }
+      }
+
+      // Update arrows
+      const prevArrow = document.querySelector('.previous-arrow') as HTMLElement;
+      const nextArrow = document.querySelector('.next-arrow') as HTMLElement;
+
+      if (prevArrow) {
+        prevArrow.style.opacity = currentPage === 1 ? '0.5' : '1';
+        prevArrow.style.pointerEvents = currentPage === 1 ? 'none' : 'auto';
+      }
+      if (nextArrow) {
+        nextArrow.style.opacity = currentPage === totalPages ? '0.5' : '1';
+        nextArrow.style.pointerEvents = currentPage === totalPages ? 'none' : 'auto';
+      }
+    }
+
+    // Event listeners for filters
+    const searchInput = document.getElementById('search');
+    const searchMobileInput = document.getElementById('search-mobile');
+    const dateFromInput = document.getElementById('date-from');
+    const dateToInput = document.getElementById('date-to');
+    const dateFromMobileInput = document.getElementById('date-from-mobile');
+    const dateToMobileInput = document.getElementById('date-to-mobile');
+
+    [searchInput, searchMobileInput].forEach(input => {
+      input?.addEventListener('input', filterProjects);
+    });
+
+    [dateFromInput, dateToInput, dateFromMobileInput, dateToMobileInput].forEach(input => {
+      input?.addEventListener('change', filterProjects);
+    });
+
+    // Partner checkboxes
+    document.querySelectorAll('input[name="partner"], input[name="partner-mobile"]').forEach(checkbox => {
+      checkbox.addEventListener('change', filterProjects);
+    });
+
+    // Sort options
+    document.querySelectorAll('[data-sort]').forEach(option => {
+      option.addEventListener('click', () => {
+        const sortOrder = option.getAttribute('data-sort') as 'newest' | 'oldest';
+        const sortText = option.textContent || '';
+
+        // Update desktop dropdown text
+        const desktopDropdown = document.querySelector('#sort-dropdown-list')?.previousElementSibling;
+        if (desktopDropdown) {
+          const span = desktopDropdown.querySelector('span');
+          if (span) {
+            span.textContent = sortText;
+            span.style.color = 'var(--text-color-title)';
+          }
+        }
+
+        // Update mobile dropdown text
+        const mobileDropdown = document.querySelector('#sortuj-mobile-list')?.previousElementSibling;
+        if (mobileDropdown) {
+          const span = mobileDropdown.querySelector('span');
+          if (span) {
+            span.textContent = sortText;
+            span.style.color = 'var(--text-color-title)';
+          }
+        }
+
+        sortProjects(sortOrder);
+      });
+    });
+
+    // Pagination arrows
+    document.querySelector('.previous-arrow')?.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        displayProjects();
+        scrollToProjects();
+      }
+    });
+
+    document.querySelector('.next-arrow')?.addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayProjects();
+        scrollToProjects();
+      }
+    });
+
+    // Initial display
+    displayProjects();
+  });
+</script>

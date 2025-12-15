@@ -1,0 +1,261 @@
+---
+import { Image } from "astro:assets";
+import SanityImage from "./SanityImage.astro";
+import type { CustomImage } from "../../../sanity.types";
+
+interface Props {
+  name: string;
+  slug: string;
+  coverImage: CustomImage;
+  latestImages?: Array<{
+    _key?: string;
+    _type?: string;
+    asset?: {
+      _ref?: string;
+      _type?: string;
+    };
+    alt?: string;
+  }>;
+}
+
+const { name, slug, coverImage, latestImages = [] } = Astro.props;
+---
+
+<div class="gallery-item">
+  <div><h2>{name}</h2></div>
+
+  <div class="gallery-entry">
+
+      <div class="image-cover">
+        <div class="image-big">
+          {coverImage && (
+            <SanityImage
+              image={coverImage}
+              alt={coverImage.alt || name}
+              widths={[480, 640, 960]}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+              quality={85}
+              loading="lazy"
+              class="cover-image"
+            />
+          )}
+        </div>
+      </div>
+
+      <div class="images-wrapper">
+        {latestImages.slice(0, 3).map((image, index) => (
+          <div class={`image-small image-small-${index + 1}`}>
+            {image && (
+              <SanityImage
+                image={image}
+                alt={image.alt || `${name} - zdjęcie ${index + 1}`}
+                widths={[100, 200, 300]}
+                sizes="(max-width: 768px) 100px, (max-width: 1200px) 150px, 200px"
+                quality={85}
+                loading="lazy"
+                class="small-image"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div class="button-wrapper">
+        <a href={`/galeria/${slug}`}>
+          <div class="icon-wrapper">
+            <Image
+            src={"/icons/chevron-right-icon.svg"}
+            width={64}
+            height={64}
+            alt={"Icon"}
+          />
+          </div>
+        </a>
+      </div>
+
+  </div>
+</div>
+
+<style>
+  .gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+h2 {
+  max-width: var(--section-max-width);
+    margin: 0 auto;
+    text-align: left;
+}
+
+.gallery-entry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.image-cover {
+  flex-basis: 0;
+  flex-grow: 3;
+  min-width: 0;
+}
+
+.images-wrapper {
+  display: flex;
+  gap: 1rem;
+  flex-basis: 0;
+  flex-grow: 2;
+  min-width: 0;
+}
+
+.button-wrapper {
+  flex-shrink: 0;
+  width: 60px;
+}
+
+.image-big {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Wrapper z klasą od SanityImage */
+.image-big :global(.cover-image) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Picture element wewnątrz */
+.image-big :global(.cover-image > picture) {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+/* Img element - musi nadpisać inline width/height */
+.image-big :global(.cover-image img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.image-small {
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 1/1;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Wrapper z klasą od SanityImage */
+.image-small :global(.small-image) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Picture element wewnątrz */
+.image-small :global(.small-image > picture) {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+/* Img element - musi nadpisać inline width/height */
+.image-small :global(.small-image img) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+.icon-wrapper {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, .15);
+  padding-left: 4px;
+}
+
+/* MEDIA QUERIES */
+/* 1200px and below - Hide third small image (2 small images remain) */
+@media only screen and (max-width: 1200px) {
+  .image-small-3 {
+    display: none;
+  }
+
+  .icon-wrapper {
+    width: 72px;
+    height: 72px;
+  }
+
+  .icon-wrapper img {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* 768px and below - Hide second small image (1 small image remains) */
+@media only screen and (max-width: 768px) {
+  .image-small-2 {
+    display: none;
+  }
+
+  .images-wrapper {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+  }
+
+  .image-small {
+    width: 100px;
+    flex: 0 0 auto;
+  }
+
+  .icon-wrapper {
+    width: 64px;
+    height: 64px;
+  }
+
+  .icon-wrapper img {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* 485px and below - Hide all small images (only big image remains) */
+@media only screen and (max-width: 485px) {
+  .image-small-1 {
+    display: none;
+  }
+
+  .images-wrapper {
+    display: none;
+  }
+
+  .icon-wrapper {
+    width: 56px;
+    height: 56px;
+  }
+
+  .icon-wrapper img {
+    width: 40px;
+    height: 40px;
+  }
+}
+</style>

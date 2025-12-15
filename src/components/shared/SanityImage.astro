@@ -1,0 +1,67 @@
+---
+import SanityPicture from 'astro-sanity-picture';
+import { imageBuilder } from '../../lib/urlForImage';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+
+// Type definition matching astro-sanity-picture's Lqip type
+type Lqip =
+  | {
+      enabled: false;
+    }
+  | {
+      enabled: true;
+      transitionDuration: number;
+    };
+
+interface Props {
+  image: SanityImageSource;
+  alt?: string;
+  widths?: number[];
+  sizes?: string;
+  quality?: number;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+  lqip?: boolean;
+}
+
+const {
+  image,
+  alt = '',
+  widths = [320, 640, 960, 1280, 1920],
+  sizes = '(max-width: 640px) 100vw, (max-width: 1280px) 80vw, 1280px',
+  quality = 85,
+  loading = 'lazy',
+  class: className = '',
+  fetchpriority = 'auto',
+  lqip = false,
+} = Astro.props;
+
+if (!image) {
+  console.warn('SanityImage: Missing image prop');
+  return null;
+}
+
+// Convert boolean lqip to proper Lqip object
+const lqipConfig: Lqip = lqip
+  ? { enabled: true, transitionDuration: 300 }
+  : { enabled: false };
+---
+
+<SanityPicture
+  src={image}
+  imageUrlBuilder={imageBuilder}
+  sizes={sizes}
+  widths={widths}
+  loading={loading}
+  lqip={lqipConfig}
+  sources={[
+    { options: { format: 'webp', quality } },
+    { options: { quality } }
+  ]}
+  img={{
+    alt: alt,
+    class: className,
+    fetchpriority: fetchpriority,
+  }}
+/>

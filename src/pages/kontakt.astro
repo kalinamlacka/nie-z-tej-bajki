@@ -1,0 +1,33 @@
+---
+import ContactSection from "../components/contact/ContactSection.astro";
+import LocationSection from "../components/contact/LocationSection.astro";
+import ContentWrapper from "../components/shared/ContentWrapper.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  pageTitle="Kontakt"
+>
+  <section>
+    <ContentWrapper>
+      <h2>Kontakt</h2>
+    </ContentWrapper>
+  </section>
+  <ContactSection
+    sectionTitle='Stowarzyszenie „Nie z tej bajki”'
+    phoneNumber="(+48) 604 872 709"
+    email="stowarzyszenienieztejbajki@gmail.com"
+    showBankingInfo={true}
+  />
+  <LocationSection />
+  <ContactSection
+    sectionTitle='Szkoła „Nie z tej bajki”'
+    phoneNumber="(+48) 784 374 523"
+    email="szkolanieztejbajki@gmail.com"
+  />
+  <ContactSection
+    sectionTitle='Placówka „Nie z tej bajki”'
+    phoneNumber="(+48) 696 894 267"
+    email="placowka.nieztejbajki@gmail.com"
+  />
+</BaseLayout>

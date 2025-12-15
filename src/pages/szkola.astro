@@ -1,0 +1,16 @@
+---
+import ContactSection from "../components/structure/ContactSection.astro";
+import DescriptionSection from "../components/structure/DescriptionSection.astro";
+import DownloadsSection from "../components/structure/DownloadsSection.astro";
+import PersonnelSection from "../components/structure/PersonnelSection.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  pageTitle="Szkoła"
+>
+  <DescriptionSection title="Szkoła" imageSrc="/images/struktura_szkola.png" />
+  <ContactSection />
+  <PersonnelSection />
+  <DownloadsSection />
+</BaseLayout>

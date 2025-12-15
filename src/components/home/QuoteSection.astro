@@ -1,0 +1,9 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+import QuoteCarousel from "../QuoteCarousel.tsx";
+---
+<section>
+  <ContentWrapper>
+    <QuoteCarousel client:idle rotationInterval={20000} />
+  </ContentWrapper>
+</section>

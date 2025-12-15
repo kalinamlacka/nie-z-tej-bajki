@@ -1,0 +1,195 @@
+---
+import type { GetSiteSettingsQueryResult, Seo, SiteSettings } from "../../sanity.types";
+import { mergeSEOData, generateOrganizationSchema } from "../utils/seo";
+import Footer from "../components/footer/Footer.astro";
+import NavBar from "../components/nav/NavBar.astro";
+import "../styles/global.css";
+import SEO from "../pages/SEO.astro";
+import { fetchSiteSettings } from "../api/fetchSiteSettings/query";
+
+interface Props {
+  seo?: Seo | null;
+  pageTitle?: string | null;
+}
+
+const { seo, pageTitle } = Astro.props;
+
+const siteSettings = await fetchSiteSettings();
+
+const currentPath = Astro.url.pathname;
+
+let seoConfig;
+let structuredData;
+
+if (siteSettings) {
+  seoConfig = mergeSEOData({
+    seo,
+    siteSettings,
+    currentPath: currentPath || Astro.url.pathname,
+    pageTitle,
+  });
+
+  structuredData = generateOrganizationSchema(siteSettings);
+}
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {seoConfig && siteSettings ? <SEO seoConfig={seoConfig} siteName={siteSettings.title} /> : <title>Nie z tej bajki</title>}
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
+  </head>
+  <body>
+    <NavBar />
+    <main>
+      <slot />
+      <Footer />
+    </main>
+    <!-- <CookieConsentBanner /> -->
+    <script is:inline>
+
+      class PrefetchManager {
+        constructor() {
+          this.cache = new Set();
+          this.activeRequests = new Set();
+          this.maxConcurrentRequests = 3;
+          this.hoverDelay = 300;
+          this.hoverTimeouts = new Map();
+          this.init();
+        }
+
+        shouldPrefetch() {
+          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          if (connection && connection.saveData) {
+            return false;
+          }
+
+          if (window.matchMedia && window.matchMedia("(prefers-reduced-data: reduce)").matches) {
+            return false;
+          }
+
+          return true;
+        }
+
+        async prefetchUrl(url) {
+          if (
+            this.cache.has(url) ||
+            this.activeRequests.has(url) ||
+            this.activeRequests.size >= this.maxConcurrentRequests ||
+            !this.shouldPrefetch()
+          ) {
+            return;
+          }
+
+          this.activeRequests.add(url);
+
+          try {
+            const link = document.createElement("link");
+            link.rel = "prefetch";
+            link.href = url;
+
+            document.head.appendChild(link);
+            this.cache.add(url);
+          } catch (error) {
+            console.warn("Prefetch failed:", url, error);
+          } finally {
+            this.activeRequests.delete(url);
+          }
+        }
+
+        setupHover(element) {
+          const href = element.getAttribute("href");
+          if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("http")) {
+            return;
+          }
+
+          const url = new URL(href, window.location.origin).href;
+
+          const handleMouseEnter = () => {
+            const existingTimeout = this.hoverTimeouts.get(url);
+            if (existingTimeout) {
+              clearTimeout(existingTimeout);
+            }
+
+            const timeoutId = setTimeout(() => {
+              this.prefetchUrl(url);
+              this.hoverTimeouts.delete(url);
+            }, this.hoverDelay);
+
+            this.hoverTimeouts.set(url, timeoutId);
+          };
+
+          const handleMouseLeave = () => {
+            const timeoutId = this.hoverTimeouts.get(url);
+            if (timeoutId) {
+              clearTimeout(timeoutId);
+              this.hoverTimeouts.delete(url);
+            }
+          };
+
+          element.addEventListener("mouseenter", handleMouseEnter);
+          element.addEventListener("mouseleave", handleMouseLeave);
+        }
+
+        setupIntersection(elements) {
+          if (!("IntersectionObserver" in window)) return;
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const href = entry.target.getAttribute("href");
+                  if (href && !href.startsWith("#") && !href.startsWith("mailto:") && !href.startsWith("tel:") && !href.startsWith("http")) {
+                    const url = new URL(href, window.location.origin).href;
+                    this.prefetchUrl(url);
+                  }
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { rootMargin: "100px" },
+          );
+
+          elements.forEach((el) => observer.observe(el));
+        }
+
+        init() {
+          const setup = () => {
+            // High priority links (navigation)
+            const highPriorityLinks = document.querySelectorAll('[data-prefetch="high"]');
+            highPriorityLinks.forEach((link) => this.setupHover(link));
+
+            // Standard links
+            const standardLinks = document.querySelectorAll(
+              '[data-prefetch="low"], [data-prefetch]:not([data-prefetch="high"]):not([data-prefetch="visible"])',
+            );
+            standardLinks.forEach((link) => this.setupHover(link));
+
+            // Visible links (intersection observer)
+            const visibleLinks = document.querySelectorAll('[data-prefetch="visible"]');
+            if (visibleLinks.length > 0) {
+              this.setupIntersection(visibleLinks);
+            }
+
+            console.log(`Prefetch initialized for ${highPriorityLinks.length + standardLinks.length + visibleLinks.length} links`);
+          };
+
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", setup);
+          } else {
+            setup();
+          }
+
+          // Re-initialize on page navigation
+          document.addEventListener("astro:page-load", setup);
+        }
+      }
+
+      // Initialize
+      new PrefetchManager();
+    </script>
+  </body>
+</html>

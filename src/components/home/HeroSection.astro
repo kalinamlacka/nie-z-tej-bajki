@@ -1,0 +1,112 @@
+---
+import ButtonElevated from "../shared/ButtonElevated.astro";
+import ContentWrapper from "../shared/ContentWrapper.astro";
+---
+<section>
+  <ContentWrapper>
+    <div class="text-wrapper">
+      <h2>STOWARZYSZENIE PRZYJACIÓŁ OSÓB&nbsp;Z&nbsp;AUTYZMEM</h2>
+      <h1>„NIE Z TEJ BAJKI”</h1>
+      <div class="img-wrapper-mobile">
+        <img src="hero-img.png" alt="obrazek hero">
+      </div>
+      <p>Stowarzyszenie zrzesza rodziców i terapeutów działających na rzecz dzieci z autyzmem. Podstawowe działania to organizowanie takiego rodzaju zajęć terapeutycznych, których brak w ofercie publicznej tj. zajęć grupowych, gdzie w różnorodnych formułach ćwiczone są umiejętności społeczne (zajęcia sportowe, kulturalne, okolicznościowe imprezy integracyjne itp.)</p>
+      <ButtonElevated text="Przeczytaj więcej" href="/o-nas"/>
+    </div>
+    <div class="img-wrapper">
+      <img src="hero-img.png" alt="obrazek hero">
+    </div>
+  </ContentWrapper>
+</section>
+
+<style>
+  section {
+    padding-top: unset;
+  }
+h1 {
+  font-family: 'Marhey-Regular', sans-serif;
+  color: var(--primary-color);
+  font-size: 3rem;
+  letter-spacing: 5px;
+  line-height: 150%;
+  white-space: nowrap;
+}
+
+.text-wrapper, .img-wrapper {
+  width: 100%;
+  flex: 1;
+}
+.img-wrapper img {
+  object-fit: contain;
+  height: auto;
+  width: 100%;
+}
+
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+   justify-content: center;
+  gap: 1rem;
+}
+
+.img-wrapper-mobile {
+  display: none;
+  justify-content: center;
+}
+.img-wrapper-mobile img {
+  width: 100%;
+}
+
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+  section {
+    padding-top: var(--section-padding-vertical) !important;
+    padding-bottom: 0;
+  }
+  h1 {
+    font-size: 2rem;
+    line-height: 150%;
+  }
+
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+  section {
+    padding-top: 2rem !important;
+    padding-bottom: 1rem;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+  }
+  h2 {
+    text-align: center;
+  }
+  .text-wrapper {
+    justify-content: center;
+  }
+  .img-wrapper {
+    display: none;
+  }
+  .img-wrapper-mobile {
+    width: 100%;
+    display: flex;
+  }
+  .img-wrapper-mobile img {
+    width: 70%;
+  }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+  h1 {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  .img-wrapper-mobile img {
+    width: 100%;
+  }
+}
+</style>

@@ -1,0 +1,61 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+import SanityImage from "../shared/SanityImage.astro";
+import { fetchPartners } from "../../api/homePage/fetchPartners/query";
+
+const partners = await fetchPartners();
+---
+<section>
+  <ContentWrapper columnFlex>
+    <h2>Partnerstwo</h2>
+    <div class="partners-wrapper">
+      {partners.map((partner) => (
+        <div class="partner">
+          <SanityImage
+            image={partner.partnerImage}
+            alt="Partner logo"
+            widths={[320, 640, 960]}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={85}
+            loading="lazy"
+            class="partner-image"
+          />
+        </div>
+      ))}
+    </div>
+  </ContentWrapper>
+</section>
+
+<style>
+  h2 {
+    margin-bottom: 4rem;
+  }
+  .partners-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .partner {
+    width: 100%;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    border: 1px solid var(--separator-color);
+  }
+  .partner :global(.partner-image) {
+    aspect-ratio: 16/9;
+  }
+  /* Medium screens (768px and below) */
+  @media only screen and (max-width: 768px) {
+    h2 {
+    margin-bottom: 2rem;
+  }
+  }
+  /* Small screens (485px and below) */
+  @media only screen and (max-width: 485px) {
+    .partners-wrapper {
+      grid-template-columns: repeat(1, 1fr);
+      gap: 2rem;
+    }
+  }
+
+</style>

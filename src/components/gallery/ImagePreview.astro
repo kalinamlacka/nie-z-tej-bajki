@@ -1,0 +1,290 @@
+---
+import { urlForImage } from "../../lib/urlForImage";
+import { getImageDimensions } from "../../lib/getImageDimensions";
+import type { CustomImage } from "../../../sanity.types";
+
+interface GalleryImage {
+  _key?: string;
+  _type?: string;
+  asset?: {
+    _ref?: string;
+    _type?: string;
+  };
+  alt?: string;
+}
+
+interface Props {
+  coverImage: CustomImage;
+  images: GalleryImage[];
+}
+
+const { coverImage, images = [] } = Astro.props;
+
+// Combine coverImage (index 0) with other images
+const allImages = [coverImage, ...images].filter(img => img?.asset?._ref);
+const sliderLenght = allImages.length;
+
+// Generate image URLs for the client
+const imageUrls = allImages.map(img => {
+  try {
+    return urlForImage(img).width(1920).quality(90).url();
+  } catch (e) {
+    return '';
+  }
+});
+---
+
+<!-- Image Preview Overlay -->
+<div class="image-popup-overlay">
+    <div class="image-popup-content">
+      <img src="" alt="Pop-up image" class="popup-image" />
+    </div>
+    <button class="close-popup-button"><img src="/icons/close.svg" alt="close button" /></button>
+    <button id="prev-btn-overlay" class="prev-button" aria-label="Poprzedni obrazek">
+      <img src="/icons/chevron-left-gallery-icon.svg" alt="Poprzedni obrazek" />
+    </button>
+    <button id="next-btn-overlay" class="next-button" aria-label="Następny obrazek">
+      <img src="/icons/chevron-right-gallery-icon.svg" alt="Następny obrazek" />
+    </button>
+    <div id="slide-tracker">
+      <p>1 / {sliderLenght}</p>
+    </div>
+</div>
+
+<style>
+  .next-button,
+  .prev-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 100px;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    border: none;
+    transition: 0.2s ease background-color;
+    border-radius: 50%;
+    z-index: 10002;
+  }
+  .prev-button {
+    right: unset;
+    left: 100px;
+  }
+  .next-button:hover,
+  .prev-button:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  .image-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-popup-content {
+    position: relative;
+    height: auto;
+    max-width: 70%; /* Carousel IMAGE popup width */
+    max-height: 80vh; /* Carousel IMAGE popup height */
+    max-height: 80dvh; /* Carousel IMAGE popup height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .close-popup-button {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    top: 20px;
+    right: 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s ease background-color;
+    z-index: 10001;
+  }
+  .close-popup-button > img,
+  .image-popup-overlay > .next-button > img,
+  .image-popup-overlay > .prev-button > img {
+    filter: brightness(0) saturate(100%) invert(6%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  .close-popup-button:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  #prev-btn-overlay,
+  #next-btn-overlay {
+    z-index: 10002;
+  }
+
+  #slide-tracker {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    bottom: 48px;
+    z-index: 10001;
+  }
+  #slide-tracker > p {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 1rem;
+    border-radius: 10rem;
+    color: var(--text-color);
+    text-align: center;
+    min-width: 76px;
+  }
+
+  /* Disbale website scrolling on image preview */
+  html.no-scroll,
+  body.no-scroll {
+    overflow: hidden;
+  }
+  @media only screen and (max-width: 1200px) {
+    .next-button {
+      right: 50px;
+    }
+    .prev-button {
+      left: 50px;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    #prev-btn-overlay,
+    #next-btn-overlay {
+      transform: none;
+      top: unset;
+      bottom: 48px;
+      right: 48px;
+    }
+    #prev-btn-overlay {
+      right: unset;
+      left: 48px;
+    }
+    .next-button {
+      right: 25px;
+    }
+    .prev-button {
+      left: 25px;
+    }
+  }
+
+  @media only screen and (max-width: 485px) {
+    .close-popup-button {
+      width: 40px;
+      height: 40px;
+      top: 16px;
+      right: 16px;
+    }
+    .close-popup-button > img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ imageUrls, sliderLenght }}>
+  // Gallery Image Preview - Simplified version for overlay only
+  const imagePopupOverlay = document.querySelector(".image-popup-overlay");
+  const popupImage = document.querySelector(".popup-image");
+  const closePopupButton = document.querySelector(".close-popup-button");
+  const prevButtonOverlay = document.getElementById("prev-btn-overlay");
+  const nextButtonOverlay = document.getElementById("next-btn-overlay");
+  const slideTracker = document.getElementById("slide-tracker");
+
+  let currentPopupIndex = 0;
+  const totalSlides = sliderLenght;
+
+  // Open overlay with specific image index
+  window.openGalleryPreview = function(index) {
+    if (index >= 0 && index < totalSlides) {
+      currentPopupIndex = index;
+      popupImage.src = imageUrls[index];
+      imagePopupOverlay.style.display = "flex";
+      document.body.classList.add("no-scroll");
+      document.documentElement.classList.add("no-scroll");
+      updateSlideTracker(index);
+    }
+  };
+
+  // Close overlay
+  function closeOverlay() {
+    imagePopupOverlay.style.display = "none";
+    document.body.classList.remove("no-scroll");
+    document.documentElement.classList.remove("no-scroll");
+  }
+
+  closePopupButton.addEventListener("click", closeOverlay);
+
+  imagePopupOverlay.addEventListener("click", (event) => {
+    if (event.target === imagePopupOverlay) {
+      closeOverlay();
+    }
+  });
+
+  // Navigate through images
+  function showPopupImage(index) {
+    if (index >= 0 && index < totalSlides) {
+      currentPopupIndex = index;
+      popupImage.src = imageUrls[index];
+      updateSlideTracker(index);
+    }
+  }
+
+  function nextPopupImage() {
+    const nextIndex = (currentPopupIndex + 1) % totalSlides;
+    showPopupImage(nextIndex);
+  }
+
+  function prevPopupImage() {
+    const prevIndex = (currentPopupIndex - 1 + totalSlides) % totalSlides;
+    showPopupImage(prevIndex);
+  }
+
+  nextButtonOverlay.addEventListener("click", nextPopupImage);
+  prevButtonOverlay.addEventListener("click", prevPopupImage);
+
+  // Update slide tracker
+  function updateSlideTracker(current) {
+    if (slideTracker) {
+      const visibleIndex = current + 1;
+      slideTracker.querySelector("p").textContent = `${visibleIndex} / ${totalSlides}`;
+    }
+  }
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    if (imagePopupOverlay.style.display === "flex") {
+      if (e.key === "ArrowRight") nextPopupImage();
+      if (e.key === "ArrowLeft") prevPopupImage();
+      if (e.key === "Escape") closeOverlay();
+    }
+  });
+</script>

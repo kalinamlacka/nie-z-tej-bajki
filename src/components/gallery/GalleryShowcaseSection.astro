@@ -1,0 +1,47 @@
+---
+import GalleryItem from "../shared/GalleryItem.astro";
+import { fetchGalleries } from "../../api/galleryPage/fetchGalleries/query";
+
+const galleries = await fetchGalleries();
+---
+
+<section>
+    {galleries && galleries.map((gallery) => (
+      <GalleryItem
+        name={gallery.name}
+        slug={gallery.slug}
+        coverImage={gallery.coverImage}
+        latestImages={gallery.latestImages!}
+      />
+    ))}
+</section>
+
+<style>
+  section {
+    display: flex;
+    flex-flow: column;
+    gap: 5rem;
+  }
+/* MEDIA QUERIES */
+/* 1200px and below - Hide third small image (2 small images remain) */
+@media only screen and (max-width: 1200px) {
+  section {
+    gap: 4rem;
+  }
+}
+
+/* 768px and below - Hide second small image (1 small image remains) */
+@media only screen and (max-width: 768px) {
+  section {
+    gap: 3rem;
+  }
+}
+
+/* 485px and below - Hide all small images (only big image remains) */
+@media only screen and (max-width: 485px) {
+  section {
+    gap: 2rem;
+  }
+}
+
+</style>

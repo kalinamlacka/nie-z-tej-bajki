@@ -1,0 +1,189 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+import SanityImage from "../shared/SanityImage.astro";
+import { fetchPersonnelImages } from "../../api/structurePage/fetchPersonnelImages/query";
+
+const data = await fetchPersonnelImages();
+const personnelItems = data?.personnelImages || [];
+---
+
+
+<section>
+  <ContentWrapper columnFlex gapResponsive>
+    <h2>Kadra</h2>
+    <div class="personnel-wrapper">
+
+      {personnelItems.map((item) => {
+        const hasBottomDescription = item.names && item.names.length === 3;
+        const leftName = item.names?.[0];
+        const rightName = item.names?.[1];
+        const bottomName = item.names?.[2];
+
+        return (
+          <div class={`personnel-item${hasBottomDescription ? ' personnel-item-with-bottom' : ''}`}>
+            <div class="left-description personnel-description">
+              <p class="title">{leftName?.name}</p>
+              <p class="description">{leftName?.description}</p>
+            </div>
+
+            <div class="middle-card">
+              <div class="card card-front">
+                {item.firstImage && (
+                  <SanityImage
+                    image={item.firstImage}
+                    alt={leftName?.name || 'Zdjęcie kadry'}
+                  />
+                )}
+              </div>
+              <div class="card card-back">
+                {item.secondImage && (
+                  <SanityImage
+                    image={item.secondImage}
+                    alt={leftName?.name || 'Zdjęcie kadry'}
+                  />
+                )}
+              </div>
+            </div>
+
+            <div class="right-description personnel-description">
+              <p class="title">{rightName?.name}</p>
+              <p class="description">{rightName?.description}</p>
+            </div>
+
+            {hasBottomDescription && bottomName && (
+              <div class="bottom-description personnel-description">
+                <div class="bottom-description-content">
+                  <p class="title">{bottomName.name}</p>
+                  <p class="description">{bottomName.description}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+    </div>
+  </ContentWrapper>
+</section>
+
+<style>
+.personnel-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+.personnel-item {
+    display: flex;
+    gap: 2rem;
+}
+.personnel-item-with-bottom {
+  flex-wrap: wrap;
+}
+
+.personnel-item-with-bottom .bottom-description {
+  flex: 0 0 100%;
+}
+
+.bottom-description-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: calc((100% - 4rem) / 4 * 2);
+}
+.personnel-description {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.personnel-description .title {
+  color: var(--text-color-title);
+}
+
+.personnel-description .description {
+  text-align: center;
+}
+
+.middle-card {
+  position: relative;
+  display: flex;
+  flex: 2;
+  width: 100%;
+}
+.middle-card:hover .card-back {
+  opacity: 1;
+}
+.card {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: 0px 6px 8px -1px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 6px 8px -1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 6px 8px -1px rgba(0, 0, 0, 0.25);
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.card-back {
+  position: absolute;
+  /* top: 0;
+  left: 0; */
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+
+/* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+  .personnel-wrapper {
+    gap: 3rem;
+  }
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+  .personnel-wrapper{
+    gap: 4rem;
+  }
+  .middle-card {
+    align-items: center;
+    flex: 1;
+  }
+  .card {
+    height: min-content;
+  }
+
+  .personnel-item {
+    flex-wrap: wrap;
+  }
+
+  .middle-card {
+    order: -1; /* Wyświetl jako pierwszy */
+    flex: 0 0 100%; /* Zajmij całą szerokość */
+  }
+
+  .personnel-description {
+    flex: 1; /* Dziel pozostałą przestrzeń równo */
+  }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+  .personnel-item {
+    gap: 1.5rem;
+  }
+  .personnel-wrapper{
+    gap: 3rem;
+  }
+}
+</style>

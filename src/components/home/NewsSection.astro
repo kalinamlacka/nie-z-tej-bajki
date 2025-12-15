@@ -1,0 +1,66 @@
+---
+import ButtonElevated from "../shared/ButtonElevated.astro";
+import NewsCard from "../shared/NewsCard.astro";
+import { fetchLastThreeProjects } from "../../api/homePage/fetchLastThreeProjects/query";
+
+const projects = await fetchLastThreeProjects();
+---
+<section>
+ <div class="title-wrapper">
+   <h2>Aktualnosci</h2>
+ </div>
+
+
+  <div class="news-wrapper">
+    {projects.map((project) => (
+      <NewsCard
+        image={project.partner!.partnerImage}
+        title={project.title}
+        desc={project.shortDescription}
+        slug={project.slug}
+      />
+    ))}
+  </div>
+
+  <ButtonElevated text="Zobacz więcej projektów" href="/projekty"/>
+
+</section>
+
+<style>
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+    background: linear-gradient(0deg,rgba(248, 248, 248, 1) 0%, rgba(102, 203, 255, 1) 50%, rgba(248, 248, 248, 0.9) 100%);
+  }
+  .title-wrapper {
+    width: 100%;
+  }
+  h2 {
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+    text-align: left;
+  }
+  .news-wrapper {
+    display: flex;
+    gap: 4rem;
+  }
+  /* Large screens (1200px and below) */
+  @media only screen and (max-width: 1200px) {
+    section {
+      gap: 2rem;
+    }
+    .news-wrapper {
+        gap: 2rem;
+      }
+  }
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+  .news-wrapper {
+    flex-direction: column;
+  }
+
+}
+
+</style>

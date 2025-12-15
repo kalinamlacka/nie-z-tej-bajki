@@ -1,0 +1,113 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+import { Image } from "astro:assets";
+import { fetchFilesToDownload } from "../../api/structurePage/fetchFilesToDownload/query";
+
+const data = await fetchFilesToDownload();
+const files = data?.filesToDownload || [];
+---
+
+
+<section>
+  <ContentWrapper columnFlex gapResponsive>
+    <h2>Dokumenty do pobrania</h2>
+    <div class="downloads-wrapper">
+
+      {files.length === 0 ? (
+        <p>Brak plików do pobrania</p>
+      ) : (
+        files.map((file) => {
+          return (
+            <a href={file.downloadUrl} download target="_blank">
+              <div class="download-item">
+
+                <div class="icon-wrapper">
+                  <Image
+                    src={"/icons/download-icon.svg"}
+                    width={40}
+                    height={40}
+                    alt={"Ikona"}
+                  />
+                </div>
+
+                <p class="file-name">{file.fileName}</p>
+
+              </div>
+            </a>
+          );
+        })
+      )}
+
+    </div>
+  </ContentWrapper>
+</section>
+
+<style>
+
+.downloads-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2rem;
+  gap: 1rem;
+  background-color: #ffffff;
+  border-radius: 1.25rem;
+}
+
+.downloads-wrapper a {
+  width: 100%;
+}
+
+.file-name {
+  color: var(--text-color-title);
+  font-size: 1.5rem;
+}
+.download-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: .5rem;
+}
+.icon-wrapper {
+  opacity: 0;
+  user-select: none;
+}
+.download-item:hover .file-name {
+  text-decoration: underline;
+}
+.download-item:hover .icon-wrapper {
+  opacity: 1;
+}
+.download-item:hover{
+  background-color: var(--background-color);
+}
+
+/* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+  .downloads-wrapper {
+    padding: 1rem 2rem;
+  }
+  .icon-wrapper {
+    display: none;
+  }
+  .file-name {
+    font-size: 1.25rem;
+  }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+  .downloads-wrapper {
+    padding: 1rem;
+  }
+  .file-name {
+    font-size: 1rem;
+  }
+  .download-item {
+    padding: 0.5rem 1rem;
+  }
+}
+</style>

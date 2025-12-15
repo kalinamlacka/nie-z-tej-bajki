@@ -1,0 +1,151 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+import { Image } from "astro:assets";
+---
+
+
+<section>
+  <ContentWrapper columnFlex gapResponsive>
+    <h2>Kontakt i lokalizacja</h2>
+    <div class="contact-info-wrapper">
+
+      <div class="location-map-wrapper">
+        <!-- TODO: zaimplementowac komponent na mape google -->
+         <img src="/images/template-map.png" alt="temp map"> <!-- Usunac placeholder po implementacji -->
+      </div>
+
+      <div class="info-wrapper">
+        <div class="info-item">
+
+          <div class="icon-wrapper">
+            <Image
+            src={"/icons/pin-icon.svg"}
+            width={40}
+            height={40}
+            alt={"Ikona"}
+           />
+          </div>
+
+          <div class="paragraphs">
+            <p>ul. Grójecka 97 lok. 700 </p>
+            <p>02-120 Warszawa (Ochota)</p>
+            <p>pierwsze piętro, wejście obok kwiaciarni</p>
+          </div>
+
+        </div>
+
+        <div class="info-item">
+
+          <div class="icon-wrapper">
+            <Image
+            src={"/icons/phone2-icon.svg"}
+            width={40}
+            height={40}
+            alt={"Ikona"}
+           />
+          </div>
+
+          <p>(+48) 604 872 709</p>
+
+        </div>
+
+        <div class="info-item">
+
+          <div class="icon-wrapper">
+            <Image
+            src={"/icons/mail-icon.svg"}
+            width={40}
+            height={40}
+            alt={"Ikona"}
+           />
+          </div>
+
+          <p>szkolanieztejbajki@gmail.com</p>
+
+        </div>
+      </div>
+
+    </div>
+  </ContentWrapper>
+</section>
+
+<style>
+.contact-info-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+  border-radius: 1.25rem;
+  padding: 2.5rem;
+  background-color: #ffffff;
+}
+
+
+.location-map-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 6;
+  border: 10px solid var(--primary-color-light);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.location-map-wrapper > img {  /* Prawodopodnie usunac po implementacji */
+  width: 100%;
+  height: 100%;
+
+}
+
+.info-wrapper {
+  display: flex;
+  flex: 5;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+  .location-map-wrapper, .info-wrapper {
+    flex: 1;
+  }
+  .contact-info-wrapper {
+    gap: 2rem;
+    padding: 2rem;
+  }
+  .icon-wrapper, .icon-wrapper img {
+    width: 28px;
+    height: 28px;
+  }
+  .location-map-wrapper {
+    max-height: 350px;
+  }
+  .info-wrapper {
+    gap: 1rem;
+  }
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+  .contact-info-wrapper {
+    flex-direction: column-reverse;
+    padding: 1.5rem;
+  }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+  .location-map-wrapper {
+    border-width: 4px;
+  }
+  .contact-info-wrapper {
+    padding: 1rem;
+  }
+}
+</style>

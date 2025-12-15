@@ -1,0 +1,342 @@
+@font-face {
+    font-family: "Barlow-Regular";
+    src: url(/Barlow-Regular.woff2) format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Marhey-Regular";
+    src: url(/Marhey-Regular.woff2) format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+/* CSS RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol,
+ul {
+    list-style: none;
+}
+blockquote,
+q {
+    quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: "";
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* PARAMETERS */
+
+:root {
+    --primary-color: #4dabde;
+    --primary-color-light: #66cbff;
+    --background-color: #f8f8f8;
+    --nav-background-color: #f8f8f8;
+    --text-color: #454545;
+    --text-color-title: #050505;
+    --text-color-inverted: #f0f0f0;
+    --separator-color: #acacac;
+
+    --font-size-p: 1.25rem;
+    --font-size-h2: 2.5rem;
+    --font-size-h3: 1.5rem;
+
+    --nav-height: 84px;
+    --nav-items-gap: 1rem;
+
+    --section-max-width: 1200px;
+    --section-item-gap: 4rem;
+    --section-padding-vertical: 5rem;
+    --section-padding-horizontal: 4rem;
+
+    /* --footer-height: 48vh; */
+
+    --breakpoint-large-scale: 0.65;
+    --breakpoint-medium-scale: 0.6;
+    --breakpoint-small-scale: 0.5;
+    --breakpoint-tiny-scale: 0.4;
+}
+
+/* BASIC GLOBAL STYLES */
+
+body {
+    background-color: var(--background-color);
+}
+main {
+    display: flex;
+    flex-direction: column;
+}
+a,
+p,
+h2,
+h3,
+span {
+    color: var(--text-color);
+    font-family: "Barlow-Regular";
+}
+a {
+    text-decoration: none;
+}
+section {
+    padding: var(--section-padding-vertical) var(--section-padding-horizontal);
+}
+p {
+    font-size: var(--font-size-p);
+    line-height: 150%;
+}
+h2 {
+    font-size: var(--font-size-h2);
+    line-height: 120%;
+}
+h3 {
+    font-size: var(--font-size-h3);
+    line-height: 120%;
+}
+h2,
+h3 {
+    font-weight: bold;
+    color: var(--text-color-title);
+}
+.icon {
+    width: 40px;
+    height: 40px;
+}
+
+/* SHARED CUSTOM STYLES */
+
+.pagination-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.pagination-item span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    user-select: none;
+}
+
+.pagination-item.selected {
+    background-color: var(--primary-color-light);
+    cursor: default;
+}
+
+.pagination-item.separator {
+    cursor: default;
+}
+
+.pagination-item:hover:not(.separator):not(.selected) {
+    background-color: rgba(102, 203, 255, 0.3);
+}
+
+/* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+    p {
+        font-size: 1rem;
+    }
+    section {
+        padding: calc(0.75 * var(--section-padding-vertical)) calc(0.75 * var(--section-padding-horizontal));
+    }
+    h2 {
+        font-size: calc(var(--breakpoint-large-scale) * var(--font-size-h2));
+    }
+    h3 {
+        font-size: 1.125rem;
+        line-height: 24px;
+    }
+    .pagination-item span {
+        font-size: 1.25rem;
+    }
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+    /* EXTRA GAP FOR NAVIAGTION IN MOBILE VIEW */
+    main {
+        padding-top: 4rem !important;
+    }
+    section {
+        padding: calc(0.5 * var(--section-padding-vertical)) calc(0.5 * var(--section-padding-horizontal));
+    }
+    p {
+        font-size: calc(1.1 var(--breakpoint-medium-scale) * var(--font-size-p));
+    }
+    h2 {
+        font-size: calc(var(--breakpoint-medium-scale) * var(--font-size-h2));
+    }
+    h3 {
+        font-size: 1rem;
+        line-height: 150%;
+    }
+    .pagination-item span {
+        font-size: 1.25rem;
+    }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+    section {
+        padding: calc(0.4 * var(--section-padding-vertical)) calc(0.25 * var(--section-padding-horizontal));
+    }
+    p {
+        font-size: 0.875rem;
+    }
+    h2 {
+        font-size: calc(var(--breakpoint-small-scale) * var(--font-size-h2));
+    }
+    h3 {
+        font-size: 1rem;
+    }
+    .pagination-item {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    .pagination-item span {
+        font-size: 1rem;
+    }
+    .pagination-item img {
+        width: 24px;
+        height: 24px;
+    }
+    .pagination-numbers {
+        gap: 0 !important;
+    }
+    .pagination-wrapper {
+        gap: 0.25rem;
+    }
+}
+/* Tiny screens (350px and below) */
+@media only screen and (max-width: 350px) {
+    /* p {
+        font-size: 0.75rem;
+    }
+    h2 {
+        font-size: calc(var(--breakpoint-tiny-scale) * var(--font-size-h2));
+    } */
+    /* h3 {
+        font-size: 0.75rem;
+    } */
+}

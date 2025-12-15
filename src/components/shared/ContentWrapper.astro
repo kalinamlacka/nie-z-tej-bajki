@@ -1,0 +1,48 @@
+---
+interface Props {
+  columnFlex?: boolean;
+  gapResponsive?: boolean;
+}
+
+const { columnFlex = false, gapResponsive = false } = Astro.props;
+---
+
+<div class:list={["content-wrapper", { "column-flex": columnFlex, "gap-responsive": gapResponsive }]}>
+  <slot />
+</div>
+
+<style>
+  .content-wrapper {
+    display: flex;
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+  }
+
+  .gap-responsive {
+    gap: 3rem;
+  }
+
+  .column-flex {
+    flex-direction: column;
+  }
+
+/* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+  @media only screen and (max-width: 1200px) {
+    .gap-responsive {
+      gap: 2.5rem
+    }
+  }
+  /* Medium screens (768px and below) */
+  @media only screen and (max-width: 768px) {
+    .gap-responsive {
+      gap: 2rem
+    }
+  }
+  /* Small screens (485px and below) */
+  @media only screen and (max-width: 485px) {
+    .gap-responsive {
+        gap: 1.5rem
+    }
+  }
+</style>

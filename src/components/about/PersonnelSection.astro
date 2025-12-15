@@ -1,0 +1,89 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+---
+
+<section>
+  <ContentWrapper columnFlex gapResponsive>
+    <h2>Zarząd stowarzyszenia „Nie z tej bajki”</h2>
+    <div class="personnel-wrapper">
+        <div class="personnel-item">
+            <p class="identy">Kalina Zajączkowska</p>
+            <p class="title">prezes stowarzyszenia</p>
+        </div>
+
+        <div class="personnel-item">
+            <p class="identy">Joanna Dołowa</p>
+            <p class="title">dyrektor placówki</p>
+        </div>
+
+        <div class="personnel-item">
+            <p class="identy">Jolanta Borowy</p>
+            <p class="title">członek zarządu</p>
+        </div>
+    </div>
+  </ContentWrapper>
+</section>
+
+
+<style>
+    h2 {
+        text-align: center;
+    }
+    .personnel-wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding: 2rem 0;
+    }
+    .personnel-item {
+        display: flex;
+        flex-direction: column;
+    }
+    .personnel-item .identy{
+        font-size: 2rem;
+        text-align: center;
+        color: var(--text-color-title);
+    }
+    .personnel-item .title{
+        font-size: 1.5rem;
+        text-align: center;
+    }
+     /* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+    .personnel-item .identy{
+        font-size: 1.5rem;
+    }
+    .personnel-item .title{
+        font-size: 1.25rem;
+    }
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+    .personnel-wrapper {
+        padding: 1rem 0;
+    }
+    .personnel-item .identy{
+        font-size: 1.25rem;
+    }
+    .personnel-item .title{
+        font-size: 1.125rem;
+    }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+    .personnel-wrapper {
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+    }
+    .personnel-wrapper .personnel-item:first-child {
+        width: 100%;
+    }
+    .personnel-item .identy{
+        font-size: 1.125rem;
+    }
+    .personnel-item .title{
+        font-size: 1rem;
+    }
+}
+</style>

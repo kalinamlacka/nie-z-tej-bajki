@@ -1,0 +1,132 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+
+interface Props {
+  title: string;
+  imageSrc: string;
+}
+
+const { title, imageSrc } = Astro.props;
+---
+
+
+<section>
+  <ContentWrapper columnFlex gapResponsive>
+    <div class="heading-wrapper">
+      <h2>{title}</h2>
+      <p>„NIE Z TEJ BAJKI"</p>
+    </div>
+    <div class="description-wrapper">
+
+      <div class="paragraphs">
+        <p>Niepubliczna Szkoła Przysposabiająca do Pracy „Nie z tej bajki” powstała w 2019 roku, jako
+          kolejny etap rozwoju Stowarzyszenia. Przeznaczona dla młodzieży z niepełnosprawnością
+          intelektualną w stopniu lekkim, umiarkowanym lub znacznym ze sprzężeniem, do 24 roku życia.
+          Misją szkoły jest nauka wykonywania praktycznych czynności, przydatnych na wspomaganym i
+          otwartym rynku pracy, która umożliwi reintegrację zawodową i społeczną naszych
+          podopiecznych.</p>
+        <p>Działamy w oparciu o nowoczesne standardy edukacyjne, zapewniając środowisko sprzyjające
+          rozwojowi, poczuciu bezpieczeństwa oraz budowaniu jak największej samodzielności. Możliwe
+          jest to dzięki wykwalifikowanej kadrze wychowawców, nauczycieli i terapeutów, którzy posiadają
+          doświadczenie w pracy z osobami neuroróżnorodnymi. W procesie edukacyjnym wspierani są oni
+          przez zespół asystentów, czuwających nad komfortem i potrzebami uczniów.</p>
+        <p>Prowadzimy zarówno zajęcia indywidualne, pozwalające na skupienie się na konkretnych celach
+          edukacyjnych i terapeutycznych, jak i zajęcia grupowe, wspierające współpracę, integrację i
+          budowanie kompetencji społecznych. Tym, co nas wyróżnia, są zajęcia rozwijające umiejętności
+          społeczne, których brakuje w ofercie publicznej. Skupiamy się na praktycznym kształtowaniu
+          kompetencji niezbędnych w życiu codziennym - takich jak komunikacja, współpraca, czy
+          samoobsługa.</p>
+      </div>
+
+      <div class="image-wrapper">
+        <img src={imageSrc} alt={title}>
+      </div>
+
+    </div>
+  </ContentWrapper>
+</section>
+
+<style>
+  .heading-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .heading-wrapper p {
+    font-family: 'Marhey-Regular', sans-serif;
+    color: var(--primary-color);
+    font-size: 3rem;
+    letter-spacing: 5px;
+    line-height: 150%;
+    white-space: nowrap;
+  }
+
+  .description-wrapper {
+    display: flex;
+    gap: 2rem;
+  }
+  .paragraphs {
+    display: flex;
+    flex-direction: column;
+    flex: 1rem;
+    gap: 1rem;
+  }
+  /* .description-wrapper > div {
+    flex: 1;
+  } */
+  .image-wrapper {
+    flex: 1;
+    border: 10px solid var(--primary-color-light);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    height: 100%;
+  }
+  .image-wrapper img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+/* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+  .paragraphs {
+    flex: 2;
+  }
+  .image-wrapper {
+    height: min-content;
+  }
+  .heading-wrapper p {
+    font-size: 2.5rem;
+  }
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+  .description-wrapper{
+    flex-direction: column-reverse;
+  }
+  .heading-wrapper {
+    gap: .75rem;
+  }
+  .heading-wrapper p {
+    font-size: 2rem;
+  }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+  .image-wrapper {
+    border-width: 4px;
+  }
+  .heading-wrapper p {
+    font-size: 1.5rem;
+  }
+}
+/* Tiny screens (350px and below) */
+@media only screen and (max-width: 350px) {
+  .heading-wrapper p {
+    font-size: 1.25rem;
+  }
+}
+</style>

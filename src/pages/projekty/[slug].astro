@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentWrapper from "../../components/shared/ContentWrapper.astro";
+import SanityImage from "../../components/shared/SanityImage.astro";
+import PortableText from "../../components/shared/PortableText.astro";
+import { fetchProject } from "../../api/projectsPage/fetchProject/query";
+import { fetchProjectSlugs } from "../../api/projectsPage/fetchProjectSlugs/query";
+
+export async function getStaticPaths() {
+  const slugs = await fetchProjectSlugs();
+
+  return slugs.map((item) => ({
+    params: { slug: item.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  throw new Error("Slug is required");
+}
+
+const project = await fetchProject(slug);
+
+if (!project) {
+  return Astro.redirect("/404");
+}
+---
+
+<BaseLayout
+  pageTitle={project.title}
+  seo={project.seo}
+>
+  <section>
+    <ContentWrapper columnFlex gapResponsive>
+      <h2>{project.title}</h2>
+
+      {project.partner?.partnerImage && (
+        <SanityImage
+          image={project.partner.partnerImage}
+          alt={project.partner.partnerImage.alt || project.title || "Logo partnera"}
+          widths={[400, 800, 1200]}
+          sizes="(max-width: 768px) 100vw, 80vw"
+          loading="eager"
+        />
+      )}
+
+      {project.description && (
+        <div class="description-container">
+          <PortableText value={project.description} />
+        </div>
+      )}
+    </ContentWrapper>
+  </section>
+</BaseLayout>
+
+<style>
+  .description-container {
+    padding: 2rem;
+    border-radius: 1rem;
+    background-color: #ffffff;
+    width: 100%;
+  }
+
+  .description-container :global(p) {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .description-container :global(h1),
+  .description-container :global(h2),
+  .description-container :global(h3),
+  .description-container :global(h4) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .description-container :global(ul),
+  .description-container :global(ol) {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .description-container :global(a) {
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+
+  .description-container :global(a:hover) {
+    text-decoration: none;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .description-container {
+      padding: 1.5rem;
+    }
+  }
+</style>

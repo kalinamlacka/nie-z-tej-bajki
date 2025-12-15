@@ -1,0 +1,533 @@
+---
+import { Image } from "astro:assets";
+---
+
+<a href="#main-content" class="skip-link">Pomiń i przejdź do treści głównej</a>
+
+<button id="open-sidebar-btn" onclick="openSidebar()" aria-label="open sidebar" aria-expanded="false" aria-controls="navbar">
+  <img src="/icons/hamburger_menu.svg" alt="Menu" />
+</button>
+
+<nav id="navbar">
+  <ul>
+    <!-- DO NOT REMOVE IF UNNECESSARILY EVEN AFTER CODE CLEANUP FOR BACKUP FUNCTIONS -->
+    <!-- <li class="mobile-menu-close">
+      <button id="close-sidebar-btn" onclick="closeSidebar()" aria-label="close sidebar">
+        <img src="/icons/close.svg" alt="Close" />
+      </button>
+    </li> -->
+    <li id="nav-logo">
+      <a class="active-link" aria-current="page" href="/" data-prefetch="high">
+        <Image
+        src={"/logo-nawigacja.png"}
+        width={384}
+        height={128}
+        alt={"Logo nie z tej bajki"}
+       />
+      </a>
+    </li>
+    <li id="nav-logo-mobile">
+      <a aria-current="page" href="/" data-prefetch="high">
+        <Image
+        src={"/logo-nawigacja-short.png"}
+        width={54}
+        height={64}
+        alt={"Logo nie z tej bajki"}
+       />
+      </a>
+    </li>
+    <li><a class="line-hover" href="/o-nas" data-prefetch="high">O&nbsp;nas</a></li>
+    <li><a class="line-hover" data-menu="struktura" href="/struktura" data-prefetch="high">Struktura</a></li>
+    <li><a class="line-hover" data-menu="projekty" href="/projekty" data-prefetch="high">Projekty</a></li>
+    <li><a class="line-hover" href="/galeria" data-prefetch="high">Galeria</a></li>
+    <li><a class="line-hover" href="/kontakt" data-prefetch="high">Kontakt</a></li>
+    <li class="media-item">
+      <a href="https://www.facebook.com/nieztejbajkiplacowka/" target="_blank" data-prefetch="high">
+        <Image
+        src={"/facebook-logo.png"}
+        width={62}
+        height={62}
+        alt={"Icon"}
+        />
+      </a>
+    </li>
+
+
+  </ul>
+
+  <!-- Struktura -->
+  <div class="expanded-content" data-content="struktura">
+    <div class="content-align">
+      <div class="left-content">
+        <h3>Nasza<br>struktura</h3>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="middle-content">
+        <a class="dropdown-menu-hover" href="/szkola">
+          <div class="item-wrapper">
+            <p class="item-title">Szkoła</p>
+            <p class="item-desc">Opis szkoły</p>
+          </div>
+        </a>
+        <a class="dropdown-menu-hover" href="/placowka">
+          <div class="item-wrapper">
+            <p class="item-title">Placówka</p>
+            <p class="item-desc">Opis placówki</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="right-content">
+        <div class="item-wrapper">
+          <p class="item-title">Hierarchia</p>
+          <p class="item-desc">Struktura zarządzania</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projekty -->
+  <div class="expanded-content" data-content="projekty">
+    <div class="content-align">
+      <div class="left-content">
+        <h3>Nasze<br>projekty</h3>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="middle-content">
+        <a class="dropdown-menu-hover" href="/projekty">
+          <div class="item-wrapper">
+            <p class="item-title">Projekty</p>
+            <p class="item-desc">Opis projektów</p>
+          </div>
+        </a>
+        <a class="dropdown-menu-hover" href="/kluby">
+          <div class="item-wrapper">
+            <p class="item-title">Kluby</p>
+            <p class="item-desc">Opis klubów</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="separator"></div>
+
+      <div class="right-content">
+        <div class="item-wrapper">
+          <p class="item-title">Plany na przyszłość</p>
+          <p class="item-desc">Nad czym będziemy pracować</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</nav>
+
+<div id="overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+<style>
+  nav {
+    position: sticky;
+    width: 100%;
+    /* padding: 0 var(--nav-items-gap); */
+    /* height: var(--nav-height); */
+    background-color: #ffffff;
+    z-index: 100;
+    top: 0;
+    left: 0;
+  }
+
+  .expanded-content {
+    background-color: #ffffff;
+    position: absolute;
+    top: calc(100% - 3px);
+    left: 0;
+    width: 100%;
+  }
+  .content-align {
+    border-top: 3px solid #000000;
+    display: flex;
+    margin: 0 auto;
+    max-width: var(--section-max-width);
+    width: 100%;
+    gap: 2rem;
+    padding: 2rem 1rem;
+  }
+  .content-align > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .expanded-content .separator {
+    /* height: 100%; */
+    max-width: 1px;
+    background-color: var(--separator-color);
+  }
+
+  .expanded-content .middle-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .expanded-content h3 {
+    font-size: 3rem; 
+    font-weight: bold;
+    color: var(--text-color-title);
+    line-height: 120%;
+  }
+  .item-wrapper .item-title {
+    font-size: 2rem; 
+    font-weight: bold;
+    color: var(--text-color-title);
+  }
+  .item-wrapper .item-desc {
+    font-size: 1.25rem;
+  }
+  nav ul {
+    display: flex;
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+    padding: 1rem 1rem 0 1rem;
+    list-style: none;
+    gap: var(--nav-items-gap);
+    border-bottom: 3px solid #000000;
+  }
+  nav ul li {
+    display: flex;
+    align-items: flex-end;
+    margin: 0 auto;
+  }
+  #nav-logo, #nav-logo-mobile {
+    margin-left: 0;
+  }
+
+  nav ul li a {
+    /* display: flex;
+    align-items: center;
+    justify-content: flex-end; */
+    font-size: var(--font-size-p);
+    color: var(--text-color-title);
+    font-weight: bold;
+    letter-spacing: 2px;
+    height: min-content;
+  }
+
+  nav ul li:not(#nav-logo, #nav-logo-mobile) a{
+    line-height: 290%;
+  }
+
+  nav ul li .line-hover {
+    border-bottom: 3px solid white;
+  }
+  nav ul li .line-hover:hover {
+    color: var(--primary-color);
+    border-color: #000000;
+  }
+  nav ul .media-item a {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .dropdown-menu-hover:hover .item-title {
+    color: var(--primary-color);
+  }
+
+  /* nav.scrolled ul li a:hover {
+    color: var(--primary-color) ;
+  } */
+
+  #nav-logo a, #nav-logo-mobile a {
+    padding: 0;
+  }
+
+  /* nav.scrolled {
+    background-color: var(--nav-background-color);
+    backdrop-filter: blur(6px);
+    border-bottom: 2px solid rgb(210, 210, 210);
+  }
+  nav.scrolled ul li a {
+    color: var(--text-color);
+  } */
+  /* nav.scrolled ul #nav-logo a .nav-logo-img {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  } */
+  .active-link {
+    transition: border 0.2s ease;
+    border-bottom: 2px solid transparent;
+  }
+  /* nav.scrolled .active-link {
+    border-bottom: 2px solid #000000;
+  } */
+  button {
+    display: none;
+    background: none;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+  }
+  #close-sidebar-btn img {
+    filter: brightness(0) saturate(100%) invert(6%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  }
+  #open-sidebar-btn img {
+    filter: brightness(0) saturate(100%) invert(100%);
+  }
+
+  #open-sidebar-btn img,
+  #close-sidebar-btn img {
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+  }
+  #open-sidebar-btn {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    top: 12px;
+    left: 12px;
+    z-index: 100;
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color);
+    border-radius: .5rem;
+    -webkit-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, .25);
+    -moz-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, .25);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, .25);
+  }
+
+  #overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 99;
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  .skip-link {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  .skip-link:focus {
+    opacity: 1;
+    pointer-events: auto;
+    outline: 2px solid #ffffff;
+  }
+  .scrolled-mobile {
+    background: rgba(0, 0, 0, 0.5) ;
+  }
+
+  /* MENU ROZWIJANE */
+  .expanded-content {
+    /* opacity: 0;
+    visibility: hidden;
+    pointer-events: none; */
+    display: none;
+  }
+
+  /* Pokaż odpowiedni content gdy hoverujesz link LUB sam content */
+  nav:has(.line-hover[data-menu="struktura"]:hover) .expanded-content[data-content="struktura"],
+  .expanded-content[data-content="struktura"]:hover,
+  nav:has(.line-hover[data-menu="projekty"]:hover) .expanded-content[data-content="projekty"],
+  .expanded-content[data-content="projekty"]:hover {
+    /* opacity: 1;
+    visibility: visible;
+    pointer-events: auto; */
+    display: flex;
+  }
+
+  /* MOBILE */
+  .mobile-menu-close {
+    display: none !important;
+  }
+  #nav-logo-mobile {
+    display: none;
+  }
+
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+  #nav-logo {
+    display: none;
+  }
+  #nav-logo-mobile {
+    display: flex;
+  }
+  .media-item {
+    margin-right: 0 !important;
+  }
+  nav ul {
+    /* border-bottom: unset; */
+    width: 100%;
+    padding: .5rem 1rem 0rem 1rem;
+  }
+  #nav-logo-mobile {
+    padding-bottom: .25rem;
+  }
+  nav{
+    /* border-bottom: 3px solid #000000; */
+    padding: .5rem var(--section-padding-horizontal) 0;
+  }
+  .expanded-content {
+    padding: 0 var(--section-padding-horizontal);
+  }
+  .content-align {
+    padding: 2rem 0;
+  }
+  .expanded-content h3 {
+    font-size: 2rem; 
+  }
+  .item-wrapper .item-title {
+    font-size: 1.5rem; 
+  }
+  .item-wrapper .item-desc {
+    font-size: 1rem;
+  }
+}
+  /* Medium screens (768px and below) */
+  @media only screen and (max-width: 768px) {
+    .mobile-menu-close {
+      display: block !important;
+    }
+    button {
+      display: flex;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: unset;
+      height: 100dvh;
+      height: 100vh;
+      width: min(15em, 100%);
+      z-index: 101;
+      /* border-left: 2px solid rgb(210, 210, 210); */
+      left: -100%;
+      padding: 0;
+      transition: left 0.3s ease-out;
+    }
+    #nav-logo > a {
+      width: 100%;
+    }
+    nav.showed {
+      left: 0;
+      background-color: #ffffff;
+    }
+    nav.showed ~ #overlay {
+      display: block;
+    }
+    nav ul {
+      flex-direction: column;
+      width: 100%;
+      padding-top: 2rem;
+    }
+    nav ul li a {
+      width: 100%;
+    }
+    #nav-logo {
+      margin-right: 0;
+    }
+    nav.scrolled {
+      border-bottom: none;
+    }
+    .active-link {
+      border-bottom: none !important;
+    }
+    nav ul, .line-hover {
+      border: unset !important;
+    }
+    #nav-logo-mobile {
+
+      margin: 0 auto ;
+    }
+    .media-item {
+    margin: 0 auto !important;
+  }
+  }
+</style>
+
+<script is:inline>
+  const navbar = document.getElementById("navbar");
+  const media = window.matchMedia("(max-width: 768px)");
+  const openBtn = document.getElementById("open-sidebar-btn");
+
+  let isMobile = false;
+
+  const isProjectPage = /^\/projects\/[^/]+\/?$/.test(window.location.pathname);
+
+ 
+  media.addEventListener("change", (e) => updateNavbar(e));
+
+  function updateNavbar(e) {
+    isMobile = e.matches;
+    if (isMobile) {
+      navbar.setAttribute("inert", "");
+      openBtn.style.display = "flex";
+    } else {
+      if (isProjectPage) {
+        navbar?.classList.add("scrolled");
+      } else if (window.scrollY > 2) {
+        navbar?.classList.add("scrolled");
+      } else {
+        navbar?.classList.remove("scrolled");
+      }
+      navbar.removeAttribute("inert");
+      openBtn.style.display = "none";
+    }
+  }
+
+  function openSidebar() {
+    navbar.classList.add("showed");
+    openBtn.style.display = "none";
+    openBtn.setAttribute("aria-expanded", "true");
+    navbar.removeAttribute("inert");
+  }
+
+  function closeSidebar() {
+    navbar.classList.remove("showed");
+    openBtn.style.display = "block";
+    openBtn.setAttribute("aria-expanded", "false");
+    navbar.setAttribute("inert", "");
+  }
+
+  function setActiveLink() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll("#navbar a");
+
+    navLinks.forEach((link) => {
+      link.classList.remove("active-link");
+      link.removeAttribute("aria-current");
+
+      const linkPath = link.getAttribute("href");
+
+      // Normalize paths by removing trailing slash for comparison
+      const normalizedCurrentPath = currentPath.replace(/\/$/, "") || "/";
+      const normalizedLinkPath = linkPath.replace(/\/$/, "") || "/";
+
+      if (normalizedLinkPath === normalizedCurrentPath) {
+        link.classList.add("active-link");
+        link.setAttribute("aria-current", "page");
+      }
+    });
+  }
+  setActiveLink();
+  document.addEventListener("astro:page-load", setActiveLink);
+
+  updateNavbar(media);
+</script>

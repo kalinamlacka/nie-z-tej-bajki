@@ -1,0 +1,151 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  sectionTitle: string;
+  phoneNumber: string;
+  email: string;
+  showBankingInfo?: boolean;
+}
+
+const { sectionTitle, phoneNumber, email, showBankingInfo = false } = Astro.props;
+---
+
+<section>
+  <ContentWrapper columnFlex gapResponsive>
+    <div class="contact-wrapper">
+
+      <h3>{sectionTitle}</h3>
+
+      <div class="contact-info">
+
+        <div class="contact-item">
+          <Image
+          src={"/icons/telephone3-icon.svg"}
+          width={60}
+          height={60}
+          alt={"Ikona"}
+        />
+          <p class="item-title">Numer telefonu</p>
+          <p class="item-description">{phoneNumber}</p>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="contact-item">
+          <Image
+            src={"/icons/email2-icon.svg"}
+            width={60}
+            height={60}
+            alt={"Ikona"}
+          />
+          <p class="item-title">Adres e-mail</p>
+          <p class="item-description">{email}</p>
+        </div>
+
+    {showBankingInfo && <div class="separator desktop-only"></div>}
+
+        {showBankingInfo && (
+          <div class="contact-item flex-wrap">
+            <Image
+              src={"/icons/banking_icon.svg"}
+              width={60}
+              height={60}
+              alt={"Ikona"}
+            />
+            <p class="item-title">Nr konta</p>
+            <p class="item-description">82 1540 1287 2032 8050 7214 0001<br>NIP: 1132782690<br>KRS: 0000338175</p>
+          </div>
+        )}
+
+      </div> 
+      
+    </div>
+  </ContentWrapper>
+</section>
+
+
+<style>
+  h3 {
+    text-align: center;
+  }
+  .contact-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-info {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 1.25rem;
+    padding: 2rem;
+  }
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+  }
+  .item-title, .item-description {
+    text-align: center;
+  }
+  .item-title {
+    font-weight: bold;
+  }
+  .separator {
+    width: 1px;
+    background-color: var(--separator-color);
+    margin: 0 0.25rem;
+  }
+
+
+/* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+  .contact-info{
+    flex-wrap: wrap;
+  }
+  .flex-wrap {
+    margin-top: 1.5rem;
+    flex: 0 0 100%;
+  }
+  .desktop-only {
+    display: none;
+  }
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+    .contact-wrapper {
+    gap: 1.5rem;
+  }
+    .flex-wrap {
+    margin-top: unset;
+  }
+  .contact-info{
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .desktop-only {
+    display: block;
+  }
+  .separator {
+    height: 1px;
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+  .contact-item img {
+    width: 48px;
+    height: 48px;
+  }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+  .contact-wrapper {
+    gap: 1.25rem;
+  }
+}
+
+</style>

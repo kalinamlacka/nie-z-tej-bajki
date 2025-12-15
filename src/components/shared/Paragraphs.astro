@@ -1,0 +1,20 @@
+---
+interface Props {
+  paragraphs: string[];
+  className?: string;
+}
+
+const { paragraphs, className = "" } = Astro.props;
+---
+
+<div class="paragraph-wrapper">
+  {
+    paragraphs.map((paragraph: string) => {
+      return <p class={className}>{paragraph}</p>;
+    })
+  }
+</div>
+
+<style>
+  
+</style>

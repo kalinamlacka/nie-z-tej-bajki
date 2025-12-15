@@ -1,0 +1,141 @@
+---
+import ContentWrapper from "../shared/ContentWrapper.astro";
+import { Image } from "astro:assets";
+---
+
+<section>
+  <ContentWrapper columnFlex gapResponsive>
+    <div class="heading-wrapper">
+      <h2>Stowarzyszenie</h2>
+      <p>„NIE Z TEJ BAJKI”</p>
+    </div>
+    <div class="description-wrapper">
+
+      <div class="paragraphs">
+        <p>Stowarzyszenie zrzesza rodziców i terapeutów działających na rzecz   
+            dzieci z autyzmem. Podstawowym działaniem jest organizowanie zajęć   
+            terapeutycznych, których brak w ofercie  
+            publicznej tj. zajęcia grupowe rozwijające umiejętności społeczne.</p>
+        <p>Naszą misją jest rozwijanie pełnego potencjału osób ze spektrum   
+            autyzmu, dając im i ich rodzinom szansę na wszechstronny rozwój,   
+            integrację społeczną i jak największą samodzielność. Uczymy ich nie   
+            tylko kluczowych umiejętności społecznych, komunikacyjnych i   
+            życiowych, ale także rozwijamy ich unikalne talenty, ucząc jednocześnie   
+            cierpliwości, akceptacji, wytrwałości i zdolności do funkcjonowania w   
+            różnorodnym społeczeństwie.</p>
+        <p>Wierzymy, że każda osoba z autyzmem zasługuje na życie bez barier,   
+            pełne szacunku i zrozumienia. Działając w sercu społeczności, z dumą   
+            tworzymy bezpieczną i wspierającą przestrzeń, w której budowany jest   
+            fundament pod ich lepszą przyszłość.</p>
+        <p>Działalność Stowarzyszenia to również wspieranie rozwoju kadry, aby   
+            mogli oni stale podnosić swoje kwalifikacje, zdobywać nowe certyfikaty i   
+            wdrażać innowacyjne, oparte na dowodach metody pracy z osobami ze   
+            spektrum autyzmu, co przekłada się na wyższą jakość wsparcia dla   
+            naszych podopiecznych. Ponadto dbamy o systemowe wsparcie,   
+            obejmujące konsultacje psychologiczne, grupy wsparcia oraz warsztaty   
+            dla rodziców.</p>
+        <p>Podopiecznymi są dzieci z diagnozą autyzmu z Warszawy, woj.   
+            mazowieckiego i pojedyncze osoby z innych rejonów Polski. Do wielu   
+            działań są także włączani ich rówieśnicy z rodzin zagrożonych   
+            alkoholizmem, wykluczani ze względu na niski status ekonomiczny. Koszt   
+            udziału tej grupy jest wtedy finansowany ze środków własnych. Wiele   
+            aktywności jest realizowanych w partnerstwie z jednostkami samorządu   
+            terytorialnego dzielnicy Ochota, gdzie zlokalizowana jest szkoła   
+            specjalna, do której uczęszcza większość dzieci. Środki pozyskiwane są   
+            głownie z dotacji celowych gminy, miasta, województwa oraz   
+            programów pomocowych Unii Europejskiej.</p>
+      </div>
+
+      <div class="image-wrapper">
+        <Image
+          src={"/hero-img.png"}
+          width={500}
+          height={1000}
+          alt={"Grafika Nie z tej bajki"}
+        />
+      </div>
+
+    </div>
+  </ContentWrapper>
+</section>
+
+<style>
+  h2 {
+    margin-bottom: 1rem;
+  }
+  .heading-wrapper p {
+    font-family: 'Marhey-Regular', sans-serif;
+    color: var(--primary-color);
+    font-size: 3rem;
+    letter-spacing: 5px;
+    line-height: 150%;
+    white-space: nowrap;
+  }
+  .description-wrapper {
+    display: flex;
+    gap: 2rem;
+  }
+  .paragraphs {
+    display: flex;
+    flex-direction: column;
+    flex: 1rem;
+    gap: 1rem;
+  }
+
+  .image-wrapper {
+    flex: 1;
+    height: 100%;
+  }
+  .image-wrapper img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+  /* MEDIA QUERIES */
+/* Large screens (1200px and below) */
+@media only screen and (max-width: 1200px) {
+  .description-wrapper{
+    align-items: center;
+  }
+  .paragraphs {
+    flex: 2;
+  }
+  .image-wrapper {
+    height: min-content;
+  }
+  .heading-wrapper p {
+    font-size: 2.5rem;
+  }
+}
+/* Medium screens (768px and below) */
+@media only screen and (max-width: 768px) {
+  .description-wrapper{
+    flex-direction: column-reverse;
+  }
+  .heading-wrapper {
+    gap: .75rem;
+  }
+  .heading-wrapper p {
+    font-size: 2rem;
+  }
+}
+/* Small screens (485px and below) */
+@media only screen and (max-width: 485px) {
+      h2 {
+    margin-bottom: .25rem;
+  }
+  .image-wrapper {
+    border-width: 4px;
+  }
+  .heading-wrapper p {
+    font-size: 1.5rem;
+  }
+}
+/* Tiny screens (350px and below) */
+@media only screen and (max-width: 350px) {
+  .heading-wrapper p {
+    font-size: 1.25rem;
+  }
+}
+</style>
