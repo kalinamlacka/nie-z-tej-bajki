@@ -7,6 +7,7 @@ const getLastThreeProjectsQuery = defineQuery(`
   _id,
   title,
   shortDescription,
+  image,
   "slug": slug.current,
   partner->{
     name,

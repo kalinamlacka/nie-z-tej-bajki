@@ -4,7 +4,7 @@ import ContentWrapper from "../shared/ContentWrapper.astro";
 ---
 <section>
   <ContentWrapper>
-    <div class="text-wrapper">
+    <div class="text-wrapper" id="main-content">
       <h2>STOWARZYSZENIE PRZYJACIÓŁ OSÓB&nbsp;Z&nbsp;AUTYZMEM</h2>
       <h1>„NIE Z TEJ BAJKI”</h1>
       <div class="img-wrapper-mobile">
@@ -33,8 +33,13 @@ h1 {
 }
 
 .text-wrapper, .img-wrapper {
-  width: 100%;
-  flex: 1;
+  display: flex;
+}
+.text-wrapper {
+  flex: 4;
+}
+.img-wrapper {
+  flex: 3;
 }
 .img-wrapper img {
   object-fit: contain;
@@ -61,7 +66,7 @@ h1 {
 @media only screen and (max-width: 1200px) {
   section {
     padding-top: var(--section-padding-vertical) !important;
-    padding-bottom: 0;
+    padding-bottom: .75rem;
   }
   h1 {
     font-size: 2rem;

@@ -1,0 +1,25 @@
+---
+interface Props {
+  node: {
+    _type: string;
+    markDef: {
+      _type: string;
+      _key: string;
+      href: string;
+      blank?: boolean;
+    };
+    markKey: string;
+  };
+}
+
+const { node } = Astro.props;
+const { href, blank = true } = node.markDef;
+
+const targetProps = blank
+  ? { target: '_blank', rel: 'noopener noreferrer' }
+  : {};
+---
+
+<a href={href} {...targetProps}>
+  <slot />
+</a>

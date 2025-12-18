@@ -1,7 +1,10 @@
 ---
 import { PortableText as PortableTextRenderer } from 'astro-portabletext';
 import type { PortableTextBlock } from '@portabletext/types';
-import SanityImage from './SanityImage.astro';
+import PortableTextImage from './PortableTextImage.astro';
+import PortableTextImageGrid from './PortableTextImageGrid.astro';
+import PortableTextLink from './PortableTextLink.astro';
+import PortableTextVideoEmbed from './PortableTextVideoEmbed.astro';
 
 interface Props {
   value: PortableTextBlock[];
@@ -13,7 +16,12 @@ const { value, class: className = '' } = Astro.props;
 // Komponenty custom typów
 const components = {
   type: {
-    customImage: SanityImage,
+    customImage: PortableTextImage,
+    imageGrid: PortableTextImageGrid,
+    videoEmbed: PortableTextVideoEmbed,
+  },
+  mark: {
+    link: PortableTextLink,
   },
 };
 ---

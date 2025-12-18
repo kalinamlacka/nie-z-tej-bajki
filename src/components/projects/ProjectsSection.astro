@@ -201,7 +201,7 @@ const partnersReferenceData = await fetchPartnersReferenceData();
             >
               <div class="project-heading">
                 <h3>{project.title}</h3>
-                {project.partner?.partnerImage && (
+                {project.partner?.partnerImage ? (
                   <div class="image-wrapper">
                     <SanityImage
                       image={project.partner.partnerImage}
@@ -211,7 +211,17 @@ const partnersReferenceData = await fetchPartnersReferenceData();
                       loading="lazy"
                     />
                   </div>
-                )}
+                ) : project.image ? (
+                  <div class="image-wrapper">
+                    <SanityImage
+                      image={project.image}
+                      alt={project.image.alt || project.title || "Zdjęcie projektu"}
+                      widths={[200, 300, 400]}
+                      sizes="200px"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : null}
               </div>
 
               <p>{project.shortDescription}</p>

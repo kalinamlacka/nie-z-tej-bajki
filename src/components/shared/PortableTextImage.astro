@@ -1,0 +1,49 @@
+---
+import SanityImage from './SanityImage.astro';
+
+interface Props {
+  node: {
+    _type: string;
+    asset: {
+      _ref: string;
+      _type: string;
+    };
+    alt?: string;
+    hotspot?: {
+      x: number;
+      y: number;
+      height: number;
+      width: number;
+    };
+    crop?: {
+      top: number;
+      bottom: number;
+      left: number;
+      right: number;
+    };
+  };
+}
+
+const { node } = Astro.props;
+---
+
+<figure class="portable-text-image">
+  <SanityImage
+    image={node}
+    alt={node.alt || ''}
+    widths={[400, 800, 1200, 1600]}
+    sizes="(max-width: 768px) 100vw, 800px"
+  />
+</figure>
+
+<style>
+  .portable-text-image {
+    margin: 1.5rem 0;
+  }
+
+  .portable-text-image :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+</style>

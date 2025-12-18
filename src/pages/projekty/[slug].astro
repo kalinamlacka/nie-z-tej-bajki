@@ -35,7 +35,7 @@ if (!project) {
     <ContentWrapper columnFlex gapResponsive>
       <h2>{project.title}</h2>
 
-      {project.partner?.partnerImage && (
+      {project.partner?.partnerImage ? (
         <SanityImage
           image={project.partner.partnerImage}
           alt={project.partner.partnerImage.alt || project.title || "Logo partnera"}
@@ -43,7 +43,15 @@ if (!project) {
           sizes="(max-width: 768px) 100vw, 80vw"
           loading="eager"
         />
-      )}
+      ) : project.image ? (
+        <SanityImage
+          image={project.image}
+          alt={project.image.alt || project.title || "Zdjęcie projektu"}
+          widths={[400, 800, 1200]}
+          sizes="(max-width: 768px) 100vw, 80vw"
+          loading="eager"
+        />
+      ) : null}
 
       {project.description && (
         <div class="description-container">

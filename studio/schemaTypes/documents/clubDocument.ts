@@ -3,6 +3,8 @@ import {TagIcon} from '@sanity/icons'
 import {seo} from '../objects/common/components/seo'
 import {partnerDocument} from './partnerDocument'
 import {customImage} from '../objects/common/components/customImage'
+import {imageGrid} from '../objects/common/components/imageGrid'
+import {videoEmbed} from '../objects/common/components/videoEmbed'
 
 export const clubDocument = defineType({
   name: 'club',
@@ -109,6 +111,12 @@ export const clubDocument = defineType({
         },
         {
           type: customImage.name,
+        },
+        {
+          type: imageGrid.name,
+        },
+        {
+          type: videoEmbed.name,
         },
       ],
       group: 'content',

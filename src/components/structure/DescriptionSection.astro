@@ -69,14 +69,11 @@ const { title, imageSrc } = Astro.props;
   .paragraphs {
     display: flex;
     flex-direction: column;
-    flex: 1rem;
+    flex: 4;
     gap: 1rem;
   }
-  /* .description-wrapper > div {
-    flex: 1;
-  } */
   .image-wrapper {
-    flex: 1;
+    flex: 3;
     border: 10px solid var(--primary-color-light);
     border-radius: 1.25rem;
     overflow: hidden;
@@ -92,9 +89,6 @@ const { title, imageSrc } = Astro.props;
 /* MEDIA QUERIES */
 /* Large screens (1200px and below) */
 @media only screen and (max-width: 1200px) {
-  .paragraphs {
-    flex: 2;
-  }
   .image-wrapper {
     height: min-content;
   }
@@ -105,7 +99,7 @@ const { title, imageSrc } = Astro.props;
 /* Medium screens (768px and below) */
 @media only screen and (max-width: 768px) {
   .description-wrapper{
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
   .heading-wrapper {
     gap: .75rem;

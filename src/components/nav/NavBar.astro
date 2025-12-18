@@ -36,9 +36,41 @@ import { Image } from "astro:assets";
        />
       </a>
     </li>
-    <li><a class="line-hover" href="/o-nas" data-prefetch="high">O&nbsp;nas</a></li>
-    <li><a class="line-hover" data-menu="struktura" href="/struktura" data-prefetch="high">Struktura</a></li>
-    <li><a class="line-hover" data-menu="projekty" href="/projekty" data-prefetch="high">Projekty</a></li>
+    <li class="desktop-only"><span class="line-hover" data-menu="struktura" data-prefetch="high">O&nbsp;nas</span></li>
+    <li class="dropdown-menu-mobile mobile-only">
+      <button class="dropdown-toggle" aria-expanded="false" aria-controls="dropdown-o-nas">
+        O&nbsp;nas
+        <Image
+        src={"/icons/dropdown_arrow-icon.svg"}
+        width={24}
+        height={24}
+        alt={"Dropdown icon"}
+        class="dropdown-arrow"
+       />
+      </button>
+      <div class="menu-expanded" id="dropdown-o-nas">
+        <a href="/o-nas">Stowarzyszenie</a>
+        <a href="/szkola">Szkoła</a>
+        <a href="/placowka">Placówka</a>
+      </div>
+    </li>
+    <li class="desktop-only"><span class="line-hover" data-menu="projekty" data-prefetch="high">Projekty</span></li>
+    <li class="dropdown-menu-mobile mobile-only">
+      <button class="dropdown-toggle" aria-expanded="false" aria-controls="dropdown-projekty">
+        Projekty
+        <Image
+        src={"/icons/dropdown_arrow-icon.svg"}
+        width={24}
+        height={24}
+        alt={"Dropdown icon"}
+        class="dropdown-arrow"
+       />
+      </button>
+      <div class="menu-expanded" id="dropdown-projekty">
+        <a href="/projekty">Aktualności</a>
+        <a href="/kluby">Kluby</a>
+      </div>
+    </li>
     <li><a class="line-hover" href="/galeria" data-prefetch="high">Galeria</a></li>
     <li><a class="line-hover" href="/kontakt" data-prefetch="high">Kontakt</a></li>
     <li class="media-item">
@@ -59,12 +91,18 @@ import { Image } from "astro:assets";
   <div class="expanded-content" data-content="struktura">
     <div class="content-align">
       <div class="left-content">
-        <h3>Nasza<br>struktura</h3>
+        <h3>Nasza<br>Organizacja</h3>
       </div>
 
       <div class="separator"></div>
 
       <div class="middle-content">
+        <a class="dropdown-menu-hover" href="/o-nas">
+          <div class="item-wrapper">
+            <p class="item-title">Stowarzyszenie</p>
+            <p class="item-desc">Opis stowarzyszenia</p>
+          </div>
+        </a>
         <a class="dropdown-menu-hover" href="/szkola">
           <div class="item-wrapper">
             <p class="item-title">Szkoła</p>
@@ -82,10 +120,10 @@ import { Image } from "astro:assets";
       <div class="separator"></div>
 
       <div class="right-content">
-        <div class="item-wrapper">
+        <!-- <div class="item-wrapper">
           <p class="item-title">Hierarchia</p>
           <p class="item-desc">Struktura zarządzania</p>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -102,7 +140,7 @@ import { Image } from "astro:assets";
       <div class="middle-content">
         <a class="dropdown-menu-hover" href="/projekty">
           <div class="item-wrapper">
-            <p class="item-title">Projekty</p>
+            <p class="item-title">Aktualności</p>
             <p class="item-desc">Opis projektów</p>
           </div>
         </a>
@@ -117,10 +155,10 @@ import { Image } from "astro:assets";
       <div class="separator"></div>
 
       <div class="right-content">
-        <div class="item-wrapper">
+        <!-- <div class="item-wrapper">
           <p class="item-title">Plany na przyszłość</p>
           <p class="item-desc">Nad czym będziemy pracować</p>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -134,14 +172,17 @@ import { Image } from "astro:assets";
   nav {
     position: sticky;
     width: 100%;
-    /* padding: 0 var(--nav-items-gap); */
-    /* height: var(--nav-height); */
     background-color: #ffffff;
     z-index: 100;
     top: 0;
     left: 0;
   }
-
+  .mobile-only {
+    display: none !important;
+  }
+  .desktop-only {
+    display: flex;
+  }
   .expanded-content {
     background-color: #ffffff;
     position: absolute;
@@ -164,7 +205,6 @@ import { Image } from "astro:assets";
     flex-direction: column;
   }
   .expanded-content .separator {
-    /* height: 100%; */
     max-width: 1px;
     background-color: var(--separator-color);
   }
@@ -206,19 +246,28 @@ import { Image } from "astro:assets";
     margin-left: 0;
   }
 
-  nav ul li a {
-    /* display: flex;
-    align-items: center;
-    justify-content: flex-end; */
-    font-size: var(--font-size-p);
+  nav ul li a, nav ul li span, nav ul li button {
+    font-size: calc(1.25 * var(--font-size-p)) ;
     color: var(--text-color-title);
     font-weight: bold;
     letter-spacing: 2px;
     height: min-content;
   }
+  nav ul li button {
+    display: flex;
+    justify-content: center;
+    font-family: 'Barlow-Regular';
+    width: 100%;
+    gap: .5rem;
+    margin-left: 2rem;
+  }
 
-  nav ul li:not(#nav-logo, #nav-logo-mobile) a{
+  nav ul li:not(#nav-logo, #nav-logo-mobile) a, nav ul li span{
     line-height: 290%;
+  }
+
+  nav ul li span {
+    user-select: none;
   }
 
   nav ul li .line-hover {
@@ -361,6 +410,25 @@ import { Image } from "astro:assets";
     display: none;
   }
 
+  .dropdown-menu-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+  }
+  .menu-expanded {
+    display: none;
+    flex-direction: column;
+  }
+  .menu-expanded.active {
+    display: flex;
+  }
+  .dropdown-menu-mobile a {
+    text-align: center;
+  }
+  .dropdown-toggle[aria-expanded="true"] .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
 /* Large screens (1200px and below) */
 @media only screen and (max-width: 1200px) {
   #nav-logo {
@@ -402,6 +470,12 @@ import { Image } from "astro:assets";
 }
   /* Medium screens (768px and below) */
   @media only screen and (max-width: 768px) {
+    .mobile-only {
+      display: flex !important;
+    }
+    .desktop-only {
+      display: none !important;
+    }
     .mobile-menu-close {
       display: block !important;
     }
@@ -530,4 +604,28 @@ import { Image } from "astro:assets";
   document.addEventListener("astro:page-load", setActiveLink);
 
   updateNavbar(media);
+
+  // Dropdown menu toggle functionality
+  function toggleDropdown(button) {
+    const isExpanded = button.getAttribute("aria-expanded") === "true";
+    const dropdownId = button.getAttribute("aria-controls");
+    const dropdown = document.getElementById(dropdownId);
+
+    if (!dropdown) return;
+
+    // Toggle aria-expanded
+    button.setAttribute("aria-expanded", !isExpanded);
+
+    // Toggle active class
+    dropdown.classList.toggle("active");
+  }
+
+  // Add event listeners to all dropdown toggles
+  const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
+  dropdownToggles.forEach((toggle) => {
+    toggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleDropdown(toggle);
+    });
+  });
 </script>

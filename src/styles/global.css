@@ -156,16 +156,16 @@ table {
     --text-color-inverted: #f0f0f0;
     --separator-color: #acacac;
 
-    --font-size-p: 1.25rem;
+    --font-size-p: 1rem;
     --font-size-h2: 2.5rem;
-    --font-size-h3: 1.5rem;
+    --font-size-h3: 1.25rem;
 
     --nav-height: 84px;
     --nav-items-gap: 1rem;
 
     --section-max-width: 1200px;
     --section-item-gap: 4rem;
-    --section-padding-vertical: 5rem;
+    --section-padding-vertical: 2.5rem;
     --section-padding-horizontal: 4rem;
 
     /* --footer-height: 48vh; */

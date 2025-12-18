@@ -89,7 +89,11 @@ export type Club = {
     _key: string;
   } | {
     _key: string;
-  } & CustomImage>;
+  } & CustomImage | {
+    _key: string;
+  } & ImageGrid | {
+    _key: string;
+  } & VideoEmbed>;
   slug: Slug;
   seo?: Seo;
 };
@@ -176,6 +180,7 @@ export type Post = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "partner";
   };
+  image?: CustomImage;
   title: string;
   shortDescription: string;
   description?: Array<{
@@ -198,7 +203,11 @@ export type Post = {
     _key: string;
   } | {
     _key: string;
-  } & CustomImage>;
+  } & CustomImage | {
+    _key: string;
+  } & ImageGrid | {
+    _key: string;
+  } & VideoEmbed>;
   slug: Slug;
   seo?: Seo;
 };
@@ -228,6 +237,21 @@ export type Personnel = {
   names?: Array<{
     _key: string;
   } & PersonnelName>;
+};
+
+export type VideoEmbed = {
+  _type: "videoEmbed";
+  url: string;
+  caption?: string;
+};
+
+export type ImageGrid = {
+  _type: "imageGrid";
+  images: Array<{
+    _key: string;
+  } & CustomImage>;
+  layout: "2-columns" | "3-columns" | "4-columns" | "masonry";
+  gap?: "small" | "medium" | "large";
 };
 
 export type CustomFile = {
@@ -382,7 +406,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = SiteSettings | CustomImage | Club | Seo | Slug | GalleryFolder | SanityImageCrop | SanityImageHotspot | Quote | Post | Partner | PersonnelName | Personnel | CustomFile | ActionButton | StructureInstitutionPage | StructureSchoolPage | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes = SiteSettings | CustomImage | Club | Seo | Slug | GalleryFolder | SanityImageCrop | SanityImageHotspot | Quote | Post | Partner | PersonnelName | Personnel | VideoEmbed | ImageGrid | CustomFile | ActionButton | StructureInstitutionPage | StructureSchoolPage | MediaTag | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/api/clubsPage/fetchClub/query.ts
 // Variable: getClubBySlugQuery
@@ -392,6 +416,10 @@ export type GetClubBySlugQueryResult = {
   description: Array<{
     _key: string;
   } & CustomImage | {
+    _key: string;
+  } & ImageGrid | {
+    _key: string;
+  } & VideoEmbed | {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -528,11 +556,12 @@ export type GetHomeSectionsQueryResult = Array<never>;
 
 // Source: ./src/api/homePage/fetchLastThreeProjects/query.ts
 // Variable: getLastThreeProjectsQuery
-// Query: *[_type == "post"] | order(_createdAt desc)[0...3] {  _id,  title,  shortDescription,  "slug": slug.current,  partner->{    name,    partnerImage  }}
+// Query: *[_type == "post"] | order(_createdAt desc)[0...3] {  _id,  title,  shortDescription,  image,  "slug": slug.current,  partner->{    name,    partnerImage  }}
 export type GetLastThreeProjectsQueryResult = Array<{
   _id: string;
   title: string;
   shortDescription: string;
+  image: CustomImage | null;
   slug: string;
   partner: {
     name: string;
@@ -557,12 +586,16 @@ export type GetPartnersReferenceDataQueryResult = Array<{
 
 // Source: ./src/api/projectsPage/fetchProject/query.ts
 // Variable: getProjectQuery
-// Query: *[_type == "post" && slug.current == $slug][0] {  title,  description,  partner->{    partnerImage  },  _createdAt,  "slug": slug.current,  seo}
+// Query: *[_type == "post" && slug.current == $slug][0] {  title,  description,  image,  partner->{    partnerImage  },  _createdAt,  "slug": slug.current,  seo}
 export type GetProjectQueryResult = {
   title: string;
   description: Array<{
     _key: string;
   } & CustomImage | {
+    _key: string;
+  } & ImageGrid | {
+    _key: string;
+  } & VideoEmbed | {
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -581,6 +614,7 @@ export type GetProjectQueryResult = {
     _type: "block";
     _key: string;
   }> | null;
+  image: CustomImage | null;
   partner: {
     partnerImage: CustomImage;
   } | null;
@@ -598,10 +632,11 @@ export type GetProjectSlugsQueryResult = Array<{
 
 // Source: ./src/api/projectsPage/fetchProjects/query.ts
 // Variable: getProjectsQuery
-// Query: *[_type == "post"] {  title,  shortDescription,  partner->{    partnerImage,    _id  },  _createdAt,  "slug": slug.current,}
+// Query: *[_type == "post"] {  title,  shortDescription,  image,  partner->{    partnerImage,    _id  },  _createdAt,  "slug": slug.current,}
 export type GetProjectsQueryResult = Array<{
   title: string;
   shortDescription: string;
+  image: CustomImage | null;
   partner: {
     partnerImage: CustomImage;
     _id: string;
@@ -646,11 +681,11 @@ declare module "@sanity/client" {
     "\n*[_type == \"galleryFolder\"] {\n  _id,\n  name,\n  \"slug\": slug.current,\n  coverImage,\n  \"latestImages\": images | order(_key desc) [0...3]\n}\n": GetGalleriesQueryResult;
     "\n*[_type == \"galleryFolder\" && slug.current == $slug][0] {\n  name,\n  \"slug\": slug.current,\n  coverImage,\n  images[],\n  seo\n}\n": GetGalleryBySlugQueryResult;
     "\n*[_type == \"examplePage\"]\n{\ntitle,\nsections,\nseo\n}\n": GetHomeSectionsQueryResult;
-    "\n*[_type == \"post\"] | order(_createdAt desc)[0...3] {\n  _id,\n  title,\n  shortDescription,\n  \"slug\": slug.current,\n  partner->{\n    name,\n    partnerImage\n  }\n}\n": GetLastThreeProjectsQueryResult;
+    "\n*[_type == \"post\"] | order(_createdAt desc)[0...3] {\n  _id,\n  title,\n  shortDescription,\n  image,\n  \"slug\": slug.current,\n  partner->{\n    name,\n    partnerImage\n  }\n}\n": GetLastThreeProjectsQueryResult;
     "\n*[_type == \"partner\"] {\n  partnerImage\n}\n": GetPartnersQueryResult;
-    "\n*[_type == \"post\" && slug.current == $slug][0] {\n  title,\n  description,\n  partner->{\n    partnerImage\n  },\n  _createdAt,\n  \"slug\": slug.current,\n  seo\n}\n": GetProjectQueryResult;
+    "\n*[_type == \"post\" && slug.current == $slug][0] {\n  title,\n  description,\n  image,\n  partner->{\n    partnerImage\n  },\n  _createdAt,\n  \"slug\": slug.current,\n  seo\n}\n": GetProjectQueryResult;
     "\n*[_type == \"post\"] {\n  \"slug\": slug.current,\n}\n": GetProjectSlugsQueryResult;
-    "\n*[_type == \"post\"] {\n  title,\n  shortDescription,\n  partner->{\n    partnerImage,\n    _id\n  },\n  _createdAt,\n  \"slug\": slug.current,\n}\n": GetProjectsQueryResult;
+    "\n*[_type == \"post\"] {\n  title,\n  shortDescription,\n  image,\n  partner->{\n    partnerImage,\n    _id\n  },\n  _createdAt,\n  \"slug\": slug.current,\n}\n": GetProjectsQueryResult;
     "\n*[_type == \"structureSchoolPage\"] {\n  filesToDownload[] {\n    fileName,\n    \"downloadUrl\": asset->url\n  }\n}\n": GetFilesToDownloadQueryResult;
     "\n*[_type == \"structureSchoolPage\"] {\n  personnelImages[] {\n    firstImage,\n    secondImage,\n    names[] {\n      name,\n      description\n    }\n  }\n}\n": GetPersonnelImagesQueryResult;
   }

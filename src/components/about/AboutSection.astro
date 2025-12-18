@@ -1,23 +1,12 @@
 ---
-import ContentWrapper from "../shared/ContentWrapper.astro";
 import { Image } from "astro:assets";
 ---
 
 <section>
-  <ContentWrapper>
+  <div class="content-wrapper">
 
     <div class="description-wrapper">
       <h2>Kalina Zajączkowska</h2>
-
-      <div class="image-wrapper-mobile">
-        <Image
-          src={"/images/about_image.JPG"}
-          width={1000}
-          height={2000}
-          alt={"Kalina Zajączkowska"}
-        />
-      </div>
-
       <div class="paragraphs">
         <p>założycielka i prezes Stowarzyszenia przyjaciół z&nbsp;autyzmem Nie&nbsp;z&nbsp;Tej&nbsp;Bajki. </p>
         <p>Dyplomowany neurologopeda, oligofrenopedagog, terapeuta integracji sensorycznej oraz komunikacji alternatywnej. Prywatnie matka dorosłego syna ze spektrum autyzmu.</p>
@@ -26,14 +15,14 @@ import { Image } from "astro:assets";
     
     <div class="image-wrapper">
       <Image
-        src={"/images/about_image.JPG"}
+        src={"/images/about_image.png"}
         width={1000}
         height={2000}
         alt={"Kalina Zajączkowska"}
       />
     </div>
     
-  <ContentWrapper/>
+  </div>
 </section>
 
 <style>
@@ -73,9 +62,6 @@ import { Image } from "astro:assets";
     font-size: 1.5rem;
   }
 
-  .image-wrapper-mobile {
-    display: none;
-  }
 
 /* MEDIA QUERIES */
 /* Large screens (1200px and below) */
@@ -86,27 +72,23 @@ import { Image } from "astro:assets";
 }
 /* Medium screens (768px and below) */
 @media only screen and (max-width: 768px) {
+  .image-wrapper {
+    height: 100%;
+  }
   .paragraphs p {
     font-size: 1.125rem;
   }
 }
 /* Small screens (485px and below) */
 @media only screen and (max-width: 485px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
   .description-wrapper {
     gap: 1rem;
-  }
-  .image-wrapper-mobile {
-    display: block;
-  }
-  .image-wrapper {
-    display: none;
   }
   .paragraphs p {
     font-size: 1rem;
   }
 }
-
-
-
-
 </style>

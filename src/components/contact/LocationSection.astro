@@ -1,6 +1,15 @@
 ---
 import ContentWrapper from "../shared/ContentWrapper.astro";
 import { Image } from "astro:assets";
+
+const GOOGLE_MAPS_API_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
+
+const locationConfig = {
+  lat: 52.2089353,
+  lng: 20.9754475,
+  zoom: 17,
+  title: "Nie z Tej Bajki - ul. Grójecka 97 lok. 700"
+};
 ---
 
 <section>
@@ -20,19 +29,88 @@ import { Image } from "astro:assets";
         </div>
 
         <div class="map-wrapper contact-item">
-          <!-- TODO: zaimplementowac komponent na mape google -->
-          <img src="/images/template-map.png" alt="temp map"> <!-- Usunac placeholder po implementacji -->
+          <div
+            id="google-map"
+            data-lat={locationConfig.lat}
+            data-lng={locationConfig.lng}
+            data-zoom={locationConfig.zoom}
+            data-title={locationConfig.title}
+          ></div>
         </div>
 
-      </div> 
-      
+      </div>
+
     </div>
   </ContentWrapper>
 </section>
 
+<script define:vars={{ GOOGLE_MAPS_API_KEY }}>
+  function initMap() {
+    const mapContainer = document.getElementById('google-map');
+    if (!mapContainer) return;
+
+    const lat = parseFloat(mapContainer.dataset.lat);
+    const lng = parseFloat(mapContainer.dataset.lng);
+    const zoom = parseInt(mapContainer.dataset.zoom);
+    const title = mapContainer.dataset.title;
+
+    const location = { lat, lng };
+
+    const map = new google.maps.Map(mapContainer, {
+      center: location,
+      zoom: zoom,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+
+    const marker = new google.maps.Marker({
+      position: location,
+      map: map,
+      title: title,
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `
+        <div style="padding: 8px; max-width: 250px;">
+          <h3 style="margin: 0 0 8px 0; font-size: 14px; font-weight: bold;">Nie z Tej Bajki</h3>
+          <p style="margin: 0; font-size: 13px; line-height: 1.4;">
+            ul. Grójecka 97 lok. 700<br>
+            02-120 Warszawa (Ochota)<br>
+            <span style="color: #666;">pierwsze piętro, wejście obok kwiaciarni</span>
+          </p>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Niepubliczna+szkoła+specjalna+Nie+z+tej+bajki+Grójecka+97+Warszawa"
+             target="_blank"
+             rel="noopener noreferrer"
+             style="display: inline-block; margin-top: 10px; color: #1a73e8; text-decoration: none; font-size: 13px;">
+            Wyznacz trasę →
+          </a>
+        </div>
+      `,
+    });
+
+    marker.addListener('click', () => {
+      infoWindow.open(map, marker);
+    });
+  }
+
+  // Load Google Maps API
+  if (!window.google?.maps) {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initGoogleMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+
+    window.initGoogleMap = initMap;
+  } else {
+    initMap();
+  }
+</script>
+
 
 <style>
-  .contact-wrapper{
+  .contact-wrapper {
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -45,6 +123,7 @@ import { Image } from "astro:assets";
     border-radius: 1.25rem;
     padding: 2rem;
   }
+
   .contact-item {
     display: flex;
     flex-direction: column;
@@ -52,47 +131,49 @@ import { Image } from "astro:assets";
     gap: 1rem;
     flex: 1;
   }
-  .item-title, .item-description {
+
+  .item-title,
+  .item-description {
     text-align: center;
   }
+
   .item-title {
     font-weight: bold;
   }
-  .map-wrapper img {
+
+  #google-map {
     width: 100%;
-    max-height: 300px;
-    object-fit: cover;
+    height: 300px;
+    border-radius: 0.75rem;
   }
 
+  /* MEDIA QUERIES */
+  /* Large screens (1200px and below) */
+  @media only screen and (max-width: 1200px) {
+    .contact-info {
+      flex-wrap: wrap;
+    }
 
-/* MEDIA QUERIES */
-/* Large screens (1200px and below) */
-@media only screen and (max-width: 1200px) {
-  .contact-info{
-    flex-wrap: wrap;
+    .map-wrapper {
+      margin-top: 1.5rem;
+      flex: 0 0 100%;
+    }
   }
-  .flex-wrap {
-    margin-top: 1.5rem;
-    flex: 0 0 100%;
+
+  /* Medium screens (768px and below) */
+  @media only screen and (max-width: 768px) {
+    .contact-info {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .contact-item img {
+      width: 48px;
+      height: 48px;
+    }
+
+    #google-map {
+      height: 250px;
+    }
   }
-}
-/* Medium screens (768px and below) */
-@media only screen and (max-width: 768px) {
-  .contact-info{
-    flex-direction: column;
-    gap: 2rem;
-  }
-  .contact-item img {
-    width: 48px;
-    height: 48px;
-  }
-  .map-wrapper img {
-    width: 100% !important;
-    height: auto !important;
-  }
-}
-/* Small screens (485px and below) */
-@media only screen and (max-width: 485px) {
-  
-}
 </style>

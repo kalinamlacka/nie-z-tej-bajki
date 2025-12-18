@@ -3,6 +3,8 @@ import {TagIcon} from '@sanity/icons'
 import {seo} from '../objects/common/components/seo'
 import {partnerDocument} from './partnerDocument'
 import {customImage} from '../objects/common/components/customImage'
+import {imageGrid} from '../objects/common/components/imageGrid'
+import {videoEmbed} from '../objects/common/components/videoEmbed'
 
 export const postDocument = defineType({
   name: 'post',
@@ -26,6 +28,13 @@ export const postDocument = defineType({
       title: 'Partner',
       type: 'reference',
       to: [{type: partnerDocument.name}],
+      group: 'content',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Zdjęcie projektu',
+      type: customImage.name,
+      description: 'Zdjęcie wyświetlane gdy nie jest przypisany partner lub partner nie ma zdjęcia',
       group: 'content',
     }),
     defineField({
@@ -101,6 +110,12 @@ export const postDocument = defineType({
         {
           type: customImage.name,
         },
+        {
+          type: imageGrid.name,
+        },
+        {
+          type: videoEmbed.name,
+        },
       ],
       group: 'content',
     }),
@@ -147,12 +162,13 @@ export const postDocument = defineType({
     select: {
       name: 'title',
       slug: 'slug.current',
-      media: 'partnerImage',
+      partnerImage: 'partner.partnerImage',
+      image: 'image',
     },
-    prepare({name, media}) {
+    prepare({name, partnerImage, image}) {
       return {
         title: name || 'Post Bez Tytułu',
-        media: media,
+        media: partnerImage || image,
       }
     },
   },

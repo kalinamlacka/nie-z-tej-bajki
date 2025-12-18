@@ -12,14 +12,17 @@ const projects = await fetchLastThreeProjects();
 
 
   <div class="news-wrapper">
-    {projects.map((project) => (
-      <NewsCard
-        image={project.partner!.partnerImage}
-        title={project.title}
-        desc={project.shortDescription}
-        slug={project.slug}
-      />
-    ))}
+    {projects.map((project) => {
+      const cardImage = project.partner?.partnerImage || project.image;
+      return cardImage ? (
+        <NewsCard
+          image={cardImage}
+          title={project.title}
+          desc={project.shortDescription}
+          slug={project.slug}
+        />
+      ) : null;
+    })}
   </div>
 
   <ButtonElevated text="Zobacz więcej projektów" href="/projekty"/>
@@ -31,7 +34,7 @@ const projects = await fetchLastThreeProjects();
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5rem;
+    gap: 3rem;
     background: linear-gradient(0deg,rgba(248, 248, 248, 1) 0%, rgba(102, 203, 255, 1) 50%, rgba(248, 248, 248, 0.9) 100%);
   }
   .title-wrapper {
@@ -44,6 +47,8 @@ const projects = await fetchLastThreeProjects();
   }
   .news-wrapper {
     display: flex;
+    max-width: var(--section-max-width);
+    margin: 0 auto;
     gap: 4rem;
   }
   /* Large screens (1200px and below) */
@@ -54,7 +59,8 @@ const projects = await fetchLastThreeProjects();
     .news-wrapper {
         gap: 2rem;
       }
-  }
+    }
+
 /* Medium screens (768px and below) */
 @media only screen and (max-width: 768px) {
   .news-wrapper {

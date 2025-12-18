@@ -6,6 +6,7 @@ const getProjectQuery = defineQuery(`
 *[_type == "post" && slug.current == $slug][0] {
   title,
   description,
+  image,
   partner->{
     partnerImage
   },

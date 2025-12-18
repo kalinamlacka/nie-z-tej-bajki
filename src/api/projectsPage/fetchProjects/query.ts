@@ -6,6 +6,7 @@ const getProjectsQuery = defineQuery(`
 *[_type == "post"] {
   title,
   shortDescription,
+  image,
   partner->{
     partnerImage,
     _id
