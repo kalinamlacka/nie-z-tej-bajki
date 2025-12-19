@@ -196,7 +196,7 @@ const partnersReferenceData = await fetchPartnersReferenceData();
               class="projects-item"
               data-project-id={project.slug}
               data-title={project.title?.toLowerCase() || ""}
-              data-date={project._createdAt}
+              data-date={project.date}
               data-partner={project.partner?._id || ""}
             >
               <div class="project-heading">
@@ -236,7 +236,7 @@ const partnersReferenceData = await fetchPartnersReferenceData();
                     height={28}
                     alt="Kalendarz"
                   />
-                  <p>{formatDate(project._createdAt)}</p>
+                  <p>{formatDate(project.date)}</p>
                 </div>
               </div>
             </div>
