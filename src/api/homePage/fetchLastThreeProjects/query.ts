@@ -3,11 +3,12 @@ import { defineQuery } from "groq";
 import type { GetLastThreeProjectsQueryResult } from "../../../../sanity.types";
 
 const getLastThreeProjectsQuery = defineQuery(`
-*[_type == "post"] | order(_createdAt desc)[0...3] {
+*[_type == "post"] | order(date desc)[0...3] {
   _id,
   title,
   shortDescription,
   image,
+  date,
   "slug": slug.current,
   partner->{
     name,

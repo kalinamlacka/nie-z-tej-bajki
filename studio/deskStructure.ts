@@ -82,10 +82,20 @@ export const deskStructrure = (S: any, context: any) => {
             .title('Dokumenty')
             .items([
               ...documents.map((document) => {
+                const documentList = S.documentTypeList(document.name).title(document.title)
+
+                // Domyślne sortowanie po dacie dla postów i klubów
+                if (document.name === 'post' || document.name === 'club') {
+                  return S.listItem()
+                    .title(document.title)
+                    .icon(documentIcons[document.name] || DocumentsIcon)
+                    .child(documentList.defaultOrdering([{field: 'date', direction: 'desc'}]))
+                }
+
                 return S.listItem()
                   .title(document.title)
                   .icon(documentIcons[document.name] || DocumentsIcon)
-                  .child(S.documentTypeList(document.name).title(document.title))
+                  .child(documentList)
               }),
             ]),
         ),

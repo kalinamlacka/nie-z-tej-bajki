@@ -3,7 +3,7 @@ import { fetchSanity } from "../../..//lib/api";
 import type { GetProjectsQueryResult } from "../../../../sanity.types";
 
 const getProjectsQuery = defineQuery(`
-*[_type == "post"] {
+*[_type == "post"] | order(date desc) {
   title,
   shortDescription,
   image,
@@ -11,7 +11,7 @@ const getProjectsQuery = defineQuery(`
     partnerImage,
     _id
   },
-  _createdAt,
+  date,
   "slug": slug.current,
 }
 `);

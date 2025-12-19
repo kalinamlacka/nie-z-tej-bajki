@@ -48,6 +48,14 @@ export const clubDocument = defineType({
       group: 'content',
     }),
     defineField({
+      name: 'date',
+      title: 'Data publikacji',
+      type: 'datetime',
+      description: 'Data publikacji klubu',
+      validation: (rule) => rule.required().error('Data publikacji jest wymagana'),
+      group: 'content',
+    }),
+    defineField({
       name: 'shortDescription',
       title: 'Krótki Opis Klubu',
       type: 'string',
@@ -175,6 +183,16 @@ export const clubDocument = defineType({
   },
   orderings: [
     {
+      title: 'Data publikacji (Najnowsze)',
+      name: 'dateDesc',
+      by: [{field: 'date', direction: 'desc'}],
+    },
+    {
+      title: 'Data publikacji (Najstarsze)',
+      name: 'dateAsc',
+      by: [{field: 'date', direction: 'asc'}],
+    },
+    {
       title: 'Nazwa A-Z',
       name: 'nameAsc',
       by: [{field: 'title', direction: 'asc'}],
@@ -183,11 +201,6 @@ export const clubDocument = defineType({
       title: 'Nazwa Z-A',
       name: 'nameDesc',
       by: [{field: 'title', direction: 'desc'}],
-    },
-    {
-      title: 'Utworzone (Najnowsze)',
-      name: 'createdDesc',
-      by: [{field: '_createdAt', direction: 'desc'}],
     },
   ],
 })

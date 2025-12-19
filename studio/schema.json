@@ -321,6 +321,13 @@
         },
         "optional": false
       },
+      "date": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
       "shortDescription": {
         "type": "objectAttribute",
         "value": {
@@ -1051,6 +1058,13 @@
         "optional": true
       },
       "title": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "date": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

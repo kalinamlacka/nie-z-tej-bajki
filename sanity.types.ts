@@ -68,6 +68,7 @@ export type Club = {
   };
   image?: CustomImage;
   title: string;
+  date: string;
   shortDescription: string;
   description?: Array<{
     children?: Array<{
@@ -182,6 +183,7 @@ export type Post = {
   };
   image?: CustomImage;
   title: string;
+  date: string;
   shortDescription: string;
   description?: Array<{
     children?: Array<{
@@ -456,7 +458,7 @@ export type GetClubSlugsQueryResult = Array<{
 
 // Source: ./src/api/clubsPage/fetchClubs/query.ts
 // Variable: getClubsQuery
-// Query: *[_type == "club"] {  title,  shortDescription,  partner->{    partnerImage,    _id  },  image,  _createdAt,  "slug": slug.current,}
+// Query: *[_type == "club"] | order(date desc) {  title,  shortDescription,  partner->{    partnerImage,    _id  },  image,  date,  "slug": slug.current,}
 export type GetClubsQueryResult = Array<{
   title: string;
   shortDescription: string;
@@ -465,7 +467,7 @@ export type GetClubsQueryResult = Array<{
     _id: string;
   } | null;
   image: CustomImage | null;
-  _createdAt: string;
+  date: string;
   slug: string;
 }>;
 
@@ -556,12 +558,13 @@ export type GetHomeSectionsQueryResult = Array<never>;
 
 // Source: ./src/api/homePage/fetchLastThreeProjects/query.ts
 // Variable: getLastThreeProjectsQuery
-// Query: *[_type == "post"] | order(_createdAt desc)[0...3] {  _id,  title,  shortDescription,  image,  "slug": slug.current,  partner->{    name,    partnerImage  }}
+// Query: *[_type == "post"] | order(date desc)[0...3] {  _id,  title,  shortDescription,  image,  date,  "slug": slug.current,  partner->{    name,    partnerImage  }}
 export type GetLastThreeProjectsQueryResult = Array<{
   _id: string;
   title: string;
   shortDescription: string;
   image: CustomImage | null;
+  date: string;
   slug: string;
   partner: {
     name: string;
@@ -632,7 +635,7 @@ export type GetProjectSlugsQueryResult = Array<{
 
 // Source: ./src/api/projectsPage/fetchProjects/query.ts
 // Variable: getProjectsQuery
-// Query: *[_type == "post"] {  title,  shortDescription,  image,  partner->{    partnerImage,    _id  },  _createdAt,  "slug": slug.current,}
+// Query: *[_type == "post"] | order(date desc) {  title,  shortDescription,  image,  partner->{    partnerImage,    _id  },  date,  "slug": slug.current,}
 export type GetProjectsQueryResult = Array<{
   title: string;
   shortDescription: string;
@@ -641,7 +644,7 @@ export type GetProjectsQueryResult = Array<{
     partnerImage: CustomImage;
     _id: string;
   } | null;
-  _createdAt: string;
+  date: string;
   slug: string;
 }>;
 
@@ -675,17 +678,17 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "\n*[_type == \"club\" && slug.current == $slug][0] {\n  title,\n  description,\n  partner->{\n    partnerImage\n  },\n  image,\n  _createdAt,\n  \"slug\": slug.current,\n  seo\n}\n": GetClubBySlugQueryResult;
     "\n*[_type == \"club\"] {\n  \"slug\": slug.current,\n}\n": GetClubSlugsQueryResult;
-    "\n*[_type == \"club\"] {\n  title,\n  shortDescription,\n  partner->{\n    partnerImage,\n    _id\n  },\n  image,\n  _createdAt,\n  \"slug\": slug.current,\n}\n": GetClubsQueryResult;
+    "\n*[_type == \"club\"] | order(date desc) {\n  title,\n  shortDescription,\n  partner->{\n    partnerImage,\n    _id\n  },\n  image,\n  date,\n  \"slug\": slug.current,\n}\n": GetClubsQueryResult;
     "\n*[_type == \"partner\"] {\n  _id,\n  name\n}\n": GetClubsPartnersReferenceDataQueryResult | GetPartnersReferenceDataQueryResult;
     "\n*[_type == \"siteSettings\"]{\n  title,\n  siteUrl,\n  description,\n  keywords,\n  defaultOgImage,\n  organization,\n  socialMedia\n}\n": GetSiteSettingsQueryResult;
     "\n*[_type == \"galleryFolder\"] {\n  _id,\n  name,\n  \"slug\": slug.current,\n  coverImage,\n  \"latestImages\": images | order(_key desc) [0...3]\n}\n": GetGalleriesQueryResult;
     "\n*[_type == \"galleryFolder\" && slug.current == $slug][0] {\n  name,\n  \"slug\": slug.current,\n  coverImage,\n  images[],\n  seo\n}\n": GetGalleryBySlugQueryResult;
     "\n*[_type == \"examplePage\"]\n{\ntitle,\nsections,\nseo\n}\n": GetHomeSectionsQueryResult;
-    "\n*[_type == \"post\"] | order(_createdAt desc)[0...3] {\n  _id,\n  title,\n  shortDescription,\n  image,\n  \"slug\": slug.current,\n  partner->{\n    name,\n    partnerImage\n  }\n}\n": GetLastThreeProjectsQueryResult;
+    "\n*[_type == \"post\"] | order(date desc)[0...3] {\n  _id,\n  title,\n  shortDescription,\n  image,\n  date,\n  \"slug\": slug.current,\n  partner->{\n    name,\n    partnerImage\n  }\n}\n": GetLastThreeProjectsQueryResult;
     "\n*[_type == \"partner\"] {\n  partnerImage\n}\n": GetPartnersQueryResult;
     "\n*[_type == \"post\" && slug.current == $slug][0] {\n  title,\n  description,\n  image,\n  partner->{\n    partnerImage\n  },\n  _createdAt,\n  \"slug\": slug.current,\n  seo\n}\n": GetProjectQueryResult;
     "\n*[_type == \"post\"] {\n  \"slug\": slug.current,\n}\n": GetProjectSlugsQueryResult;
-    "\n*[_type == \"post\"] {\n  title,\n  shortDescription,\n  image,\n  partner->{\n    partnerImage,\n    _id\n  },\n  _createdAt,\n  \"slug\": slug.current,\n}\n": GetProjectsQueryResult;
+    "\n*[_type == \"post\"] | order(date desc) {\n  title,\n  shortDescription,\n  image,\n  partner->{\n    partnerImage,\n    _id\n  },\n  date,\n  \"slug\": slug.current,\n}\n": GetProjectsQueryResult;
     "\n*[_type == \"structureSchoolPage\"] {\n  filesToDownload[] {\n    fileName,\n    \"downloadUrl\": asset->url\n  }\n}\n": GetFilesToDownloadQueryResult;
     "\n*[_type == \"structureSchoolPage\"] {\n  personnelImages[] {\n    firstImage,\n    secondImage,\n    names[] {\n      name,\n      description\n    }\n  }\n}\n": GetPersonnelImagesQueryResult;
   }
