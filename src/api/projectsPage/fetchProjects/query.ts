@@ -6,9 +6,15 @@ const getProjectsQuery = defineQuery(`
 *[_type == "post"] | order(date desc) {
   title,
   shortDescription,
-  image,
+  image {
+    asset,
+    alt
+  },
   partner->{
-    partnerImage,
+    partnerImage {
+      asset,
+      alt
+    },
     _id
   },
   date,

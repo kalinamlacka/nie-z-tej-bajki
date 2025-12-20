@@ -1,5 +1,7 @@
 ---
 import { Image } from "astro:assets";
+import logoNavigation from "@/assets/images/logo-nawigacja.png";
+import etrLogo from "@/assets/images/etr_logo.png";
 ---
 
 <a href="#main-content" class="skip-link">Pomiń i przejdź do treści głównej</a>
@@ -19,9 +21,7 @@ import { Image } from "astro:assets";
     <li id="nav-logo">
       <a class="active-link" aria-current="page" href="/" data-prefetch="high">
         <Image
-        src={"/logo-nawigacja.png"}
-        width={384}
-        height={128}
+        src={logoNavigation}
         alt={"Logo nie z tej bajki"}
        />
       </a>
@@ -74,12 +74,10 @@ import { Image } from "astro:assets";
     <li><a class="line-hover" href="/galeria" data-prefetch="high">Galeria</a></li>
     <li><a class="line-hover" href="/kontakt" data-prefetch="high">Kontakt</a></li>
     <li class="media-item">
-      <a href="https://www.facebook.com/nieztejbajkiplacowka/" target="_blank" data-prefetch="high">
+      <a href="/docs/ETR.pdf" target="_blank" download>
         <Image
-        src={"/facebook-logo.png"}
-        width={62}
-        height={62}
-        alt={"Icon"}
+          src={etrLogo}
+          alt={"ETR logo"}
         />
       </a>
     </li>
@@ -230,6 +228,7 @@ import { Image } from "astro:assets";
   }
   nav ul {
     display: flex;
+    align-items: flex-end;
     max-width: var(--section-max-width);
     margin: 0 auto;
     padding: 1rem 1rem 0 1rem;
@@ -277,9 +276,20 @@ import { Image } from "astro:assets";
     color: var(--primary-color);
     border-color: #000000;
   }
+  nav ul .media-item {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1.375rem;
+  }
   nav ul .media-item a {
     display: flex;
     align-items: flex-end;
+    width: 100%;
+    height: 100%;
+  }
+  nav ul .media-item a img {
+    width: 100%;
+    height: 100%;
   }
 
   .dropdown-menu-hover:hover .item-title {
@@ -440,6 +450,9 @@ import { Image } from "astro:assets";
   .media-item {
     margin-right: 0 !important;
   }
+  nav ul .media-item {
+    margin-bottom: 1rem;
+  }
   nav ul {
     /* border-bottom: unset; */
     width: 100%;
@@ -532,7 +545,7 @@ import { Image } from "astro:assets";
     }
     .media-item {
     margin: 0 auto !important;
-  }
+    }
   }
 </style>
 

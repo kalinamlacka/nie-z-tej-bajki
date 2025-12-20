@@ -7,10 +7,16 @@ const getClubsQuery = defineQuery(`
   title,
   shortDescription,
   partner->{
-    partnerImage,
+    partnerImage {
+      asset,
+      alt
+    },
     _id
   },
-  image,
+  image {
+    asset,
+    alt
+  },
   date,
   "slug": slug.current,
 }

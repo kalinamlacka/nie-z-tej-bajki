@@ -1,6 +1,8 @@
 ---
 import ButtonElevated from "../shared/ButtonElevated.astro";
 import ContentWrapper from "../shared/ContentWrapper.astro";
+import { Image } from "astro:assets";
+import heroImg from "@/assets/images/hero-img.png";
 ---
 <section>
   <ContentWrapper>
@@ -8,13 +10,19 @@ import ContentWrapper from "../shared/ContentWrapper.astro";
       <h2>STOWARZYSZENIE PRZYJACIÓŁ OSÓB&nbsp;Z&nbsp;AUTYZMEM</h2>
       <h1>„NIE Z TEJ BAJKI”</h1>
       <div class="img-wrapper-mobile">
-        <img src="hero-img.png" alt="obrazek hero">
+        <Image
+          src={heroImg}
+          alt="obrazek hero"
+        />
       </div>
       <p>Stowarzyszenie zrzesza rodziców i terapeutów działających na rzecz dzieci z autyzmem. Podstawowe działania to organizowanie takiego rodzaju zajęć terapeutycznych, których brak w ofercie publicznej tj. zajęć grupowych, gdzie w różnorodnych formułach ćwiczone są umiejętności społeczne (zajęcia sportowe, kulturalne, okolicznościowe imprezy integracyjne itp.)</p>
       <ButtonElevated text="Przeczytaj więcej" href="/o-nas"/>
     </div>
     <div class="img-wrapper">
-      <img src="hero-img.png" alt="obrazek hero">
+      <Image
+        src={heroImg}
+        alt="obrazek hero"
+      />
     </div>
   </ContentWrapper>
 </section>
@@ -98,7 +106,8 @@ h1 {
     display: flex;
   }
   .img-wrapper-mobile img {
-    width: 70%;
+    width: 100%;
+    height: 100%;
   }
 }
 /* Small screens (485px and below) */

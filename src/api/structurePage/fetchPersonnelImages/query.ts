@@ -5,8 +5,14 @@ import type { GetPersonnelImagesQueryResult } from "../../../../sanity.types";
 const getPersonnelImagesQuery = defineQuery(`
 *[_type == "structureSchoolPage"] {
   personnelImages[] {
-    firstImage,
-    secondImage,
+    firstImage {
+      asset,
+      alt
+    },
+    secondImage {
+      asset,
+      alt
+    },
     names[] {
       name,
       description

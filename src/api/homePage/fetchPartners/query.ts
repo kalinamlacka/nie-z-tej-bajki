@@ -4,7 +4,10 @@ import type { GetPartnersQueryResult } from "../../../../sanity.types";
 
 const getPartnersQuery = defineQuery(`
 *[_type == "partner"] {
-  partnerImage
+  partnerImage {
+    asset,
+    alt
+  }
 }
 `);
 

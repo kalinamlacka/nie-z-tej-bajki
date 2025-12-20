@@ -7,12 +7,18 @@ const getLastThreeProjectsQuery = defineQuery(`
   _id,
   title,
   shortDescription,
-  image,
+  image {
+    asset,
+    alt
+  },
   date,
   "slug": slug.current,
   partner->{
     name,
-    partnerImage
+    partnerImage {
+      asset,
+      alt
+    }
   }
 }
 `);

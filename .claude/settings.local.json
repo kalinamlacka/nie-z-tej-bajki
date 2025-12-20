@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/D:\\looze\\starter-template-project\\starter-template/**)",
+      "Read(/D:\\looze\\starter-template-project\\starter-template\\studio\\schemaTypes\\objects\\common\\components/**)",
+      "Read(/D:\\looze\\starter-template-project\\starter-template\\studio\\schemaTypes\\objects\\common\\components/**)",
+      "Read(/D:\\looze\\starter-template-project\\starter-template\\studio\\schemaTypes\\objects\\common\\components/**)",
+      "Read(/D:\\looze\\starter-template-project\\starter-template\\studio\\schemaTypes\\objects\\common/**)",
+      "mcp__MCP_DOCKER__resolve-library-id",
+      "mcp__MCP_DOCKER__get-library-docs",
+      "Read(/D:\\looze\\starter-template-project\\starter-template/**)",
+      "Bash(tree:*)",
+      "Bash(sed:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(cat:*)",
+      "Bash(findstr:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run generate-types:*)",
+      "Bash(dir:*)",
+      "Bash(pkill:*)",
+      "Bash(lsof:*)",
+      "Bash(npm run dev)",
+      "WebFetch(domain:github.com)"
+    ],
+    "deny": [
+      "Read(/D:\\looze\\starter-template-project\\starter-template\\.env)",
+      "Read(/D:\\looze\\starter-template-project\\starter-template\\.env.*)"
+    ],
+    "ask": []
+  }
+}

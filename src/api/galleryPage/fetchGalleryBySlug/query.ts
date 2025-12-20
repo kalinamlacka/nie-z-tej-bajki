@@ -6,8 +6,14 @@ const getGalleryBySlugQuery = defineQuery(`
 *[_type == "galleryFolder" && slug.current == $slug][0] {
   name,
   "slug": slug.current,
-  coverImage,
-  images[],
+  coverImage {
+    asset,
+    alt
+  },
+  images[] {
+    asset,
+    alt
+  },
   seo
 }
 `);

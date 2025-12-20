@@ -8,7 +8,10 @@ const getSiteSettingsQuery = defineQuery(`
   siteUrl,
   description,
   keywords,
-  defaultOgImage,
+  defaultOgImage {
+    asset,
+    alt
+  },
   organization,
   socialMedia
 }

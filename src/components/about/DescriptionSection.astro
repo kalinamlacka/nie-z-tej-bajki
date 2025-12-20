@@ -1,6 +1,7 @@
 ---
 import ContentWrapper from "../shared/ContentWrapper.astro";
 import { Image } from "astro:assets";
+import heroImg from "@/assets/images/hero-img.png";
 ---
 
 <section>
@@ -48,9 +49,7 @@ import { Image } from "astro:assets";
 
       <div class="image-wrapper">
         <Image
-          src={"/hero-img.png"}
-          width={500}
-          height={1000}
+          src={heroImg}
           alt={"Grafika Nie z tej bajki"}
         />
       </div>

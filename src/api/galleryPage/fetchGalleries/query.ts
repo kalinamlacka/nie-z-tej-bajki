@@ -7,8 +7,14 @@ const getGalleriesQuery = defineQuery(`
   _id,
   name,
   "slug": slug.current,
-  coverImage,
-  "latestImages": images | order(_key desc) [0...3]
+  coverImage {
+    asset,
+    alt
+  },
+  "latestImages": images | order(_key desc) [0...3] {
+    asset,
+    alt
+  }
 }
 `);
 

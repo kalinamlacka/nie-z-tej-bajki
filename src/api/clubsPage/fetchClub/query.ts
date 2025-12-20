@@ -7,9 +7,15 @@ const getClubBySlugQuery = defineQuery(`
   title,
   description,
   partner->{
-    partnerImage
+    partnerImage {
+      asset,
+      alt
+    }
   },
-  image,
+  image {
+    asset,
+    alt
+  },
   _createdAt,
   "slug": slug.current,
   seo

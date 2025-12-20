@@ -42,6 +42,12 @@ if (!image) {
   return null;
 }
 
+// Check if image has asset property (required for URL generation)
+if (typeof image === 'object' && image !== null && 'asset' in image && !image.asset) {
+  console.warn('SanityImage: Image object missing asset reference', image);
+  return null;
+}
+
 // Convert boolean lqip to proper Lqip object
 const lqipConfig: Lqip = lqip
   ? { enabled: true, transitionDuration: 300 }
