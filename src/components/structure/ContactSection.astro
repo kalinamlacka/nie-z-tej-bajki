@@ -1,4 +1,10 @@
 ---
+type Props = {
+  email: string
+  phoneNumber: string
+}
+
+
 import ContentWrapper from "../shared/ContentWrapper.astro";
 import { Image } from "astro:assets";
 
@@ -10,6 +16,8 @@ const locationConfig = {
   zoom: 17,
   title: "Nie z Tej Bajki - ul. Grójecka 97 lok. 700"
 };
+
+const {email, phoneNumber} = Astro.props
 ---
 
 
@@ -59,7 +67,7 @@ const locationConfig = {
            />
           </div>
 
-          <p>(+48) 604 872 709</p>
+          <a href={`tel:${phoneNumber}`}><p>{phoneNumber}</p></a>
 
         </div>
 
@@ -74,7 +82,7 @@ const locationConfig = {
            />
           </div>
 
-          <p>szkolanieztejbajki@gmail.com</p>
+          <a href={`mailto:${email}`}><p>{email}</p></a>
 
         </div>
       </div>
