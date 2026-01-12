@@ -1,0 +1,382 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\geometry{margin=2.5cm}
+
+% Kolory
+\definecolor{primary}{RGB}{59, 130, 246}
+\definecolor{warning}{RGB}{245, 158, 11}
+\definecolor{success}{RGB}{34, 197, 94}
+\definecolor{info}{RGB}{99, 102, 241}
+
+% Formatowanie nagłówków
+\titleformat{\section}{\Large\bfseries\color{primary}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection.}{0.5em}{}
+
+% Stopka i nagłówek
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Instrukcja CMS -- Nie z tej bajki}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[C]{\small \today}
+
+% Ramki informacyjne
+\newtcolorbox{uwaga}{
+    colback=warning!10,
+    colframe=warning,
+    title=Uwaga,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{wskazowka}{
+    colback=success!10,
+    colframe=success,
+    title=Wskazówka,
+    fonttitle=\bfseries
+}
+
+\newtcolorbox{informacja}{
+    colback=info!10,
+    colframe=info,
+    title=Informacja,
+    fonttitle=\bfseries
+}
+
+\begin{document}
+
+% Strona tytułowa
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    {\Huge\bfseries Instrukcja obsługi\\[0.3cm] systemu CMS\par}
+    \vspace{1cm}
+    {\LARGE Strona internetowa\\[0.2cm] \textbf{Nie z tej bajki}\par}
+    \vspace{2cm}
+    {\large Przewodnik dla użytkownika\par}
+    \vspace{3cm}
+    {\large Wersja 1.0\par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================================
+\section{Wprowadzenie}
+% ============================================================================
+
+\subsection{Czym jest CMS?}
+
+CMS (ang. Content Management System) to system zarządzania treścią, który pozwala na łatwe edytowanie zawartości strony internetowej bez znajomości programowania. Dzięki niemu możesz:
+
+\begin{itemize}
+    \item Dodawać i edytować teksty na stronie
+    \item Wgrywać zdjęcia i dokumenty
+    \item Tworzyć nowe aktualności i wpisy
+    \item Zarządzać galerią zdjęć
+    \item Aktualizować informacje o kadrze
+\end{itemize}
+
+\subsection{Jak zmiany w CMS wpływają na stronę?}
+
+Kiedy wprowadzasz zmiany w panelu CMS, nie są one od razu widoczne na stronie internetowej. Aby zmiany zostały opublikowane, musisz \textbf{wdrożyć stronę} (przebudować ją). Proces ten zajmuje kilka minut.
+
+\begin{informacja}
+Możesz spokojnie pracować nad treściami w CMS -- zmiany nie pojawią się na stronie, dopóki nie klikniesz przycisku ``Przebuduj stronę'' w sekcji \textbf{Wdrażanie}.
+\end{informacja}
+
+% ============================================================================
+\section{Logowanie i nawigacja}
+% ============================================================================
+
+\subsection{Logowanie do panelu CMS}
+
+\begin{enumerate}
+    \item Otwórz przeglądarkę internetową (np. Chrome, Firefox)
+    \item Wejdź na adres panelu CMS (otrzymasz go od administratora)
+    \item Zaloguj się używając swojego konta
+\end{enumerate}
+
+\subsection{Struktura panelu}
+
+Po zalogowaniu zobaczysz panel z menu bocznym po lewej stronie. Menu zawiera następujące sekcje:
+
+\begin{description}[style=nextline]
+    \item[Strony] Edycja stałych podstron (Szkoła, Placówka)
+    \item[Globalne] Ustawienia całej strony (dane kontaktowe, logo)
+    \item[Dokumenty] Treści dynamiczne (aktualności, kluby, galerie, cytaty, partnerzy)
+    \item[Wdrażanie] Publikowanie zmian na stronę
+\end{description}
+
+% ============================================================================
+\section{Zarządzanie stronami}
+% ============================================================================
+
+W sekcji \textbf{Strony} znajdziesz dwie podstrony do edycji:
+
+\subsection{Strona Szkoły}
+
+Na tej stronie możesz zarządzać:
+
+\subsubsection{Kadrą szkoły}
+
+Sekcja ``Zdjęcia kadry'' pozwala dodawać członków kadry pedagogicznej. Dla każdej osoby lub grupy osób możesz dodać:
+
+\begin{itemize}
+    \item \textbf{Pierwsze zdjęcie} -- główne zdjęcie (wymagane)
+    \item \textbf{Drugie zdjęcie} -- zdjęcie alternatywne, np. w innej pozie (wymagane)
+    \item \textbf{Imiona i nazwiska} -- lista osób na zdjęciu z ich stanowiskami
+\end{itemize}
+
+\begin{wskazowka}
+Dwa zdjęcia są potrzebne, ponieważ na stronie wyświetlany jest efekt zmiany zdjęcia po najechaniu myszką.
+\end{wskazowka}
+
+\subsubsection{Dokumentami do pobrania}
+
+W tej sekcji możesz dodawać pliki PDF (regulaminy, statuty, dokumenty), które odwiedzający będą mogli pobrać ze strony.
+
+Dla każdego pliku podaj:
+\begin{itemize}
+    \item \textbf{Nazwa pliku} -- czytelna nazwa, np. ``Statut szkoły 2024''
+    \item \textbf{Plik} -- wgraj dokument PDF
+\end{itemize}
+
+\subsection{Strona Placówki}
+
+Strona placówki zawiera tylko sekcję \textbf{Dokumenty do pobrania} -- działa identycznie jak w przypadku szkoły.
+
+% ============================================================================
+\section{Zarządzanie dokumentami}
+% ============================================================================
+
+Sekcja \textbf{Dokumenty} zawiera treści, które można wielokrotnie dodawać (w przeciwieństwie do stron, które są pojedyncze).
+
+\subsection{Aktualności}
+
+Aktualności to wpisy blogowe/newsowe wyświetlane na stronie w sekcji ``Projekty/Aktualności''.
+
+\subsubsection{Tworzenie nowej aktualności}
+
+\begin{enumerate}
+    \item Kliknij \textbf{Dokumenty} $\rightarrow$ \textbf{Aktualności}
+    \item Kliknij przycisk \textbf{+ Utwórz} (w prawym górnym rogu)
+    \item Wypełnij formularz:
+\end{enumerate}
+
+\begin{description}[style=nextline]
+    \item[Tytuł] Nagłówek aktualności (wymagany)
+    \item[Data publikacji] Data wyświetlana przy wpisie (wymagana)
+    \item[Krótki opis] Tekst widoczny na liście aktualności (wymagany)
+    \item[Partner] Opcjonalnie -- jeśli aktualność dotyczy partnera, wybierz go z listy. Jego logo zostanie wyświetlone jako zdjęcie aktualności.
+    \item[Zdjęcie] Jeśli nie wybrano partnera -- wgraj zdjęcie aktualności
+    \item[Opis] Pełna treść aktualności (edytor tekstu)
+    \item[Slug] Adres URL aktualności (generowany automatycznie z tytułu)
+\end{description}
+
+\subsubsection{Edytor tekstu (Opis)}
+
+Pole ``Opis'' to zaawansowany edytor tekstu, który pozwala na:
+
+\begin{itemize}
+    \item Formatowanie tekstu (pogrubienie, kursywa, podkreślenie)
+    \item Tworzenie nagłówków (różne poziomy)
+    \item Tworzenie list (punktowanych i numerowanych)
+    \item Dodawanie cytatów
+    \item Wstawianie linków do innych stron
+    \item \textbf{Wstawianie zdjęć} -- pojedynczych lub w formie siatki
+    \item \textbf{Wstawianie filmów} -- z YouTube lub Vimeo
+\end{itemize}
+
+\begin{uwaga}
+Aby wstawić film, skopiuj link z YouTube lub Vimeo i wklej go w polu ``Link do filmu''. Link musi być pełnym adresem strony z filmem.
+\end{uwaga}
+
+\subsection{Kluby}
+
+Kluby działają bardzo podobnie do aktualności. Służą do prezentacji kółek zainteresowań i klubów działających przy placówce.
+
+Pola są identyczne jak w aktualnościach, z tą różnicą, że:
+\begin{itemize}
+    \item Wpisy wyświetlane są w osobnej sekcji ``Kluby'' na stronie
+    \item Możesz powiązać klub z partnerem (np. organizacją prowadzącą)
+\end{itemize}
+
+\subsection{Galeria -- Foldery}
+
+Galeria pozwala tworzyć albumy zdjęć pogrupowane w foldery.
+
+\subsubsection{Tworzenie nowego folderu galerii}
+
+\begin{enumerate}
+    \item Kliknij \textbf{Dokumenty} $\rightarrow$ \textbf{Galeria - Foldery}
+    \item Kliknij \textbf{+ Utwórz}
+    \item Wypełnij:
+\end{enumerate}
+
+\begin{description}[style=nextline]
+    \item[Nazwa folderu] Tytuł albumu, np. ``Wycieczka do zoo 2024'' (wymagana)
+    \item[Okładka] Zdjęcie wyświetlane jako miniatura folderu (wymagane)
+    \item[Slug] Adres URL folderu (generowany automatycznie)
+    \item[Zdjęcia] Lista wszystkich zdjęć w folderze
+\end{description}
+
+\begin{wskazowka}
+Możesz dodać wiele zdjęć na raz, przeciągając je z komputera do pola ``Zdjęcia''.
+\end{wskazowka}
+
+\subsubsection{Tekst alternatywny zdjęć}
+
+Dla każdego zdjęcia należy podać \textbf{tekst alternatywny} (pole ``Alt''). Jest to krótki opis tego, co przedstawia zdjęcie. Tekst ten:
+
+\begin{itemize}
+    \item Jest czytany przez programy dla osób niewidomych
+    \item Wyświetla się, gdy zdjęcie nie może się załadować
+    \item Pomaga w pozycjonowaniu strony w Google
+\end{itemize}
+
+Przykłady dobrych tekstów alternatywnych:
+\begin{itemize}
+    \item ``Dzieci podczas zabawy na placu zabaw''
+    \item ``Występ teatralny uczniów klasy 3a''
+    \item ``Widok na budynek szkoły od frontu''
+\end{itemize}
+
+\subsection{Cytaty}
+
+Cytaty wyświetlane są na stronie głównej w formie karuzeli.
+
+\begin{description}[style=nextline]
+    \item[Treść cytatu] Tekst cytatu (max. 280 znaków)
+    \item[Autor] Osoba, której przypisany jest cytat
+\end{description}
+
+\begin{informacja}
+Cytaty są krótkie -- jeśli przekroczysz 280 znaków, system wyświetli ostrzeżenie.
+\end{informacja}
+
+\subsection{Partnerzy}
+
+Partnerzy to organizacje współpracujące z placówką. Ich loga wyświetlane są na stronie głównej.
+
+\begin{description}[style=nextline]
+    \item[Nazwa partnera] Pełna nazwa organizacji (wymagana)
+    \item[Logo/Zdjęcie] Grafika reprezentująca partnera (wymagane)
+    \item[Slug] Adres URL (generowany automatycznie)
+\end{description}
+
+Po dodaniu partnera możesz go wybierać przy tworzeniu aktualności i klubów -- wtedy logo partnera zostanie automatycznie użyte jako zdjęcie wpisu.
+
+% ============================================================================
+\section{Ustawienia globalne}
+% ============================================================================
+
+W sekcji \textbf{Globalne} $\rightarrow$ \textbf{Ustawienia Strony} znajdziesz opcje dotyczące całej witryny.
+
+\subsection{Zakładka ``Podstawowe''}
+
+\begin{description}[style=nextline]
+    \item[Tytuł strony] Główny tytuł wyświetlany w przeglądarce
+    \item[Opis strony] Domyślny opis dla wyszukiwarek
+    \item[Adres URL strony] Główny adres witryny
+    \item[Favicon] Mała ikonka wyświetlana w karcie przeglądarki
+\end{description}
+
+\subsection{Zakładka ``Organizacja''}
+
+Dane kontaktowe organizacji wyświetlane na stronie:
+
+\begin{description}[style=nextline]
+    \item[Nazwa organizacji] Pełna nazwa stowarzyszenia/placówki
+    \item[Logo] Logo wyświetlane w stopce
+    \item[Adres] Pełny adres siedziby
+    \item[Telefon] Numer kontaktowy
+    \item[Email] Adres e-mail kontaktowy
+\end{description}
+
+\subsection{Zakładka ``Media społecznościowe''}
+
+Linki do profili w mediach społecznościowych:
+\begin{itemize}
+    \item Facebook
+    \item Instagram
+    \item LinkedIn
+    \item Twitter/X
+\end{itemize}
+
+\begin{uwaga}
+Wpisuj pełne adresy URL, np. \texttt{https://facebook.com/nazwastrony}
+\end{uwaga}
+
+% ============================================================================
+\section{Optymalizacja dla wyszukiwarek (SEO)}
+% ============================================================================
+
+Większość treści w CMS posiada zakładkę \textbf{SEO}. Wypełnienie tych pól pomoże Twojej stronie lepiej wyświetlać się w wynikach wyszukiwania Google.
+
+\subsection{Podstawowe pola SEO}
+
+\begin{description}[style=nextline]
+    \item[Tytuł meta] Tytuł wyświetlany w wynikach Google (max. 60 znaków)
+    \item[Opis meta] Opis pod tytułem w Google (max. 160 znaków)
+    \item[Słowa kluczowe] Frazy, po których strona ma być znajdowana
+\end{description}
+
+\subsection{Pola Open Graph}
+
+Pola Open Graph kontrolują, jak strona wygląda po udostępnieniu na Facebooku lub w innych mediach społecznościowych:
+
+\begin{description}[style=nextline]
+    \item[Obraz Open Graph] Zdjęcie wyświetlane przy udostępnieniu (zalecane 1200x630 px)
+    \item[Tytuł Open Graph] Tytuł przy udostępnieniu (jeśli inny niż meta)
+    \item[Opis Open Graph] Opis przy udostępnieniu
+\end{description}
+
+\subsection{Pozostałe opcje}
+
+\begin{description}[style=nextline]
+    \item[Nie indeksuj] Zaznacz, jeśli strona nie ma się pojawiać w Google
+    \item[Kanoniczny URL] Używane przy duplikatach treści (zazwyczaj zostaw puste)
+\end{description}
+
+\begin{wskazowka}
+Jeśli nie wiesz, co wpisać w polach SEO -- możesz je zostawić puste. System użyje wartości domyślnych z ustawień globalnych.
+\end{wskazowka}
+
+% ============================================================================
+\section{Wdrażanie zmian}
+% ============================================================================
+
+Po wprowadzeniu wszystkich zmian w CMS, musisz opublikować je na stronie.
+
+\subsection{Jak wdrożyć zmiany?}
+
+\begin{enumerate}
+    \item Upewnij się, że wszystkie zmiany są zapisane
+    \item Kliknij \textbf{Wdrażanie} w menu bocznym
+    \item Kliknij przycisk \textbf{Przebuduj stronę}
+    \item Potwierdź operację w oknie dialogowym
+    \item Poczekaj na komunikat o powodzeniu
+\end{enumerate}
+
+\begin{informacja}
+Przebudowa strony trwa zazwyczaj 2-5 minut. Po tym czasie zmiany będą widoczne na stronie internetowej.
+\end{informacja}
+
+\begin{uwaga}
+Nie musisz wdrażać strony po każdej małej zmianie. Możesz wprowadzić wiele zmian, a następnie wdrożyć je wszystkie naraz.
+\end{uwaga}
+
+\end{document}

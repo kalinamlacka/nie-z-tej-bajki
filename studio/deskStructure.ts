@@ -9,10 +9,12 @@ import {
   BlockquoteIcon,
   ImagesIcon,
   ComponentIcon,
+  RocketIcon,
 } from '@sanity/icons'
 import {pages} from './schemaTypes/pages'
 import {globals} from './schemaTypes/globals'
 import {documents} from './schemaTypes/documents'
+import {DeployPane} from './components/DeployPane'
 
 export const deskStructrure = (S: any, context: any) => {
   const pageIcons: Record<string, any> = {
@@ -98,6 +100,17 @@ export const deskStructrure = (S: any, context: any) => {
                   .child(documentList)
               }),
             ]),
+        ),
+
+      S.divider(),
+
+      // Deploy Section
+      S.listItem()
+        .title('Wdrażanie')
+        .icon(RocketIcon)
+        .child(
+          S.component(DeployPane)
+            .title('Wdrażanie')
         ),
 
       S.divider(),
