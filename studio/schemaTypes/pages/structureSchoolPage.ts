@@ -1,11 +1,10 @@
 import {defineField, defineType} from 'sanity'
-import {seo} from '../objects/common/components/seo'
 import {personnel} from '../objects/structure/components/personnel'
 import {customFile} from '../objects/common/components/customFile'
 
 export const structureSchoolPage = defineType({
   name: 'structureSchoolPage',
-  title: 'Struktura Szkoła',
+  title: 'Szkoła',
   type: 'document',
   groups: [
     {

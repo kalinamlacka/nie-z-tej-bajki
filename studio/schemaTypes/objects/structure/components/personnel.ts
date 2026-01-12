@@ -34,4 +34,23 @@ export const personnel = defineType({
         validation: (rule) => rule.min(1).error('Dodaj co najmniej jedno imię')
     })
   ],
+  preview: {
+    select: {
+      names: 'names',
+      media: 'firstImage'
+    },
+    prepare({ names, media }) {
+      const firstPerson = names?.[0]?.name || 'Brak imienia';
+      const count = names?.length || 0;
+      const subtitle = count > 1
+        ? `${count} osoby`
+        : names?.[0]?.description || '';
+
+      return {
+        title: firstPerson,
+        subtitle: subtitle,
+        media: media
+      };
+    }
+  }
 })
