@@ -9,6 +9,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   pageTitle="Placówka"
 >
   <DescriptionSection title="Placówka" imageSrc="/images/struktura_nztb.png" />
-  <ContactSection phoneNumber="(+48) 696 894 267" email="placowka.nieztejbajki@gmail.com" />
+  <ContactSection
+   phoneNumber="(+48) 500 036 019"
+   email="placowka.nieztejbajki@gmail.com"
+   locationConfig={{
+      lat: 52.2089353,
+      lng: 20.9754475,
+      zoom: 17,
+      title: "Nie z Tej Bajki - ul. Grójecka 97 lok. 700"
+    }}
+    addressInfo={{
+      street: "ul. Grójecka 97 lok. 700",
+      postalCode: "02-120",
+      district: "Ochota",
+      additionalInfo: "pierwsze piętro, wejście obok kwiaciarni"
+    }}
+  />
   <DownloadsSection />
 </BaseLayout>

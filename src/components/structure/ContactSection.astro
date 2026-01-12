@@ -2,22 +2,40 @@
 type Props = {
   email: string
   phoneNumber: string
+  locationConfig?: {
+    lat: number
+    lng: number
+    zoom?: number
+    title: string
+  }
+  addressInfo?: {
+    street: string
+    postalCode: string
+    district: string
+    additionalInfo?: string
+  }
 }
-
 
 import ContentWrapper from "../shared/ContentWrapper.astro";
 import { Image } from "astro:assets";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 
-const locationConfig = {
+const { email, phoneNumber, locationConfig: locationConfigProp, addressInfo: addressInfoProp } = Astro.props;
+
+const locationConfig = locationConfigProp ?? {
   lat: 52.2089353,
   lng: 20.9754475,
   zoom: 17,
   title: "Nie z Tej Bajki - ul. Grójecka 97 lok. 700"
 };
 
-const {email, phoneNumber} = Astro.props
+const addressInfo = addressInfoProp ?? {
+  street: "ul. Grójecka 97 lok. 700",
+  postalCode: "02-120",
+  district: "Ochota",
+  additionalInfo: "pierwsze piętro, wejście obok kwiaciarni"
+};
 ---
 
 
@@ -49,9 +67,9 @@ const {email, phoneNumber} = Astro.props
           </div>
 
           <div class="paragraphs">
-            <p>ul. Grójecka 97 lok. 700 </p>
-            <p>02-120 Warszawa (Ochota)</p>
-            <p>pierwsze piętro, wejście obok kwiaciarni</p>
+            <p>{addressInfo.street}</p>
+            <p>{addressInfo.postalCode} Warszawa ({addressInfo.district})</p>
+            {addressInfo.additionalInfo && <p>{addressInfo.additionalInfo}</p>}
           </div>
 
         </div>

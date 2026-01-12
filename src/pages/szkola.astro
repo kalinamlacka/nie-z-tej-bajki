@@ -10,7 +10,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   pageTitle="Szkoła"
 >
   <DescriptionSection title="Szkoła" imageSrc="/images/struktura_szkola.png" />
-  <ContactSection phoneNumber="(+48) 784 374 523" email="szkolanieztejbajki@gmail.com" />
+  <ContactSection
+   phoneNumber="(+48) 784 374 523"
+   email="szkolanieztejbajki@gmail.com"
+   locationConfig={{
+      lat: 52.206121,
+      lng: 20.9737466,
+      zoom: 17,
+      title: "Nie z Tej Bajki - ul. Walentego Majewskiego Skorochód 18 lok. 800"
+    }}
+    addressInfo={{
+      street: "ul. Walentego Majewskiego Skorochód 18 lok. 800",
+      postalCode: "02-120",
+      district: "Ochota"
+    }}
+  />
   <PersonnelSection />
   <DownloadsSection />
 </BaseLayout>
